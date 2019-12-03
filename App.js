@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import {View, Text} from 'react-native';
+import Main  from './src/Main';
 
 
 export default class App extends Component {
   render() {
     return (
-      <View>
-        <Text>DermaQ</Text>
-      </View>
+      <Main />
     );
   }
 }
