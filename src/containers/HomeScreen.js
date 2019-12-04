@@ -4,19 +4,20 @@ import config from 'src/config';
 
 export default class HomeScreen extends Component {
   render() {
-    const DermateLogImage = config.images.dermateLogImage;
-    const PatientImage = config.images.patientIcon;
-    const QuickSnapImage = config.images.quickSnapIcon;
-    const ProfileImage = config.images.profileIcon;
-    const BackGroundImage = config.images.dermateHomeScreen;
+    const dermateLogImage = config.images.dermateLogImage;
+    const patientImage = config.images.patientIcon;
+    const quickSnapImage = config.images.quickSnapIcon;
+    const profileImage = config.images.profileIcon;
+    const guideImage = config.images.guideIcon;
+    const backGroundImage = config.images.dermateHomeScreen;
 
     return (
       <View style={styles.container}>
-        <ImageBackground source={BackGroundImage} style={{width : "100%", height : "100%"}}>
+        <ImageBackground source={backGroundImage} style={{width : "100%", height : "100%"}}>
           <View style={styles.header}>
             <Image
               style={{width : 50, height : 50}}
-              source={DermateLogImage}/>
+              source={dermateLogImage}/>
             <Text style={styles.title}>D E R M A T E</Text>
           </View>
           <View style={styles.body}>
@@ -24,13 +25,13 @@ export default class HomeScreen extends Component {
               <TouchableOpacity style={styles.item } onPress={() => this.props.navigation.navigate('patients')}>
                 <Image
                   style={{width : 40, height : 40}}
-                  source={PatientImage}/>
+                  source={patientImage}/>
                 <Text>Patient</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate('quicksnaps')}>
                 <Image
                   style={{width : 40, height : 40}}
-                  source={QuickSnapImage}/>
+                  source={quickSnapImage}/>
                 <Text>Quick Snap</Text>
               </TouchableOpacity>
             </View>
@@ -38,13 +39,13 @@ export default class HomeScreen extends Component {
               <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate('profiles')}>
                 <Image
                   style={{width : 40, height : 40}}
-                  source={ProfileImage}/>
+                  source={profileImage}/>
                 <Text>Profile</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate('guides')}>
-                <Image
+              <Image
                   style={{width : 40, height : 40}}
-                  />
+                  source={guideImage}/>
                 <Text>Guide</Text>
               </TouchableOpacity>
               
