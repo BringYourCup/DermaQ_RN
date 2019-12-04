@@ -9,6 +9,7 @@ export default {
     settingIcon : require('src/images/Setting.png'),
     libraryIcon : require('src/images/Library.png'),
     guideIcon : require('src/images/Guide.png'),
+    drawerBackIcon : require('src/images/DrawerBackIcon.png')
     
   },
   baseUrl : 'https://instaapi-mhuluo.turbo360-vertex.com/api/'

@@ -1,10 +1,20 @@
 import React, {Component} from 'react';
+import {Image} from 'react-native';
 import { createSwitchNavigator, createAppContainer, NavigationActions } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import {createDrawerNavigator, DrawerActions} from "react-navigation-drawer";
-import { HomeScreen, Login, Register, Patient, Diagnosis, Image, Profile, Guide, QuickSnap, Library, Setting } from 'src/containers';
+import { HomeScreen, Login, Register, Patient, Diagnosis, PatientImage, Profile, Guide, QuickSnap, Library, Setting } from 'src/containers';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import {DrawContentComponent} from "src/components/drawScreen";
+import config from 'src/config';
 
+
+const patientImage = config.images.patientIcon;
+const quickSnapImage = config.images.quickSnapIcon;
+const profileImage = config.images.profileIcon;
+const guideImage = config.images.guideIcon;
+const settingImage = config.images.settingIcon;
+const libraryImage = config.images.libraryIcon;
 
 const PatientStack = createStackNavigator({
   patient : { 
@@ -14,7 +24,7 @@ const PatientStack = createStackNavigator({
     screen : Diagnosis,
   },
   image : { 
-    screen : Image,
+    screen : PatientImage,
   },  
 });
 
@@ -58,37 +68,73 @@ const DetailStacks = createDrawerNavigator({
   patients : {
     screen : PatientStack,
     navigationOptions : {
-      drawerLabel : "Patient"
+      drawerLabel : "Patient",
+      drawerIcon: (
+        <Image
+          style={{ width: 30, height: 30 }}
+          source={patientImage}
+        />
+      ),
     }
   },
   quicksnaps : {
     screen : QuickSnapStack,
     navigationOptions : {
-      drawerLabel : "Quick Snap"
+      drawerLabel : "Quick Snap",
+      drawerIcon: (
+        <Image
+          style={{ width: 30, height: 30 }}
+          source={quickSnapImage}
+        />
+      ),
     }
   },
   profiles : {
     screen : ProfileStack,
     navigationOptions : {
-      drawerLabel : "Profile"
+      drawerLabel : "Profile",
+      drawerIcon: (
+        <Image
+          style={{ width: 30, height: 30 }}
+          source={profileImage}
+        />
+      ),
     }
   },
   guides : {
     screen : GuideStack,
     navigationOptions : {
-      drawerLabel : "Guide"
+      drawerLabel : "Guide",
+      drawerIcon: (
+        <Image
+          style={{ width: 30, height: 30 }}
+          source={guideImage}
+        />
+      ),
     }
   },
   librarys : {
     screen : LibraryStack,
     navigationOptions : {
-      drawerLabel : "Library"
+      drawerLabel : "Library",
+      drawerIcon: (
+        <Image
+          style={{ width: 30, height: 30 }}
+          source={libraryImage}
+        />
+      ),
     }
   },
   settins : {
     screen : SettingStack,
     navigationOptions : {
-      drawerLabel : "Setting"
+      drawerLabel : "Setting",
+      drawerIcon: (
+        <Image
+          style={{ width: 30, height: 30 }}
+          source={settingImage}
+        />
+      ),
     }
   }
 },
@@ -97,6 +143,19 @@ const DetailStacks = createDrawerNavigator({
   drawerPosition : "right",
   drawerLockMode: 'locked-closed',
   drawerOpenRoute: 'DrawerRightOpen',
+  contentComponent: DrawContentComponent,
+  contentOptions: {
+    labelStyle: {
+      fontSize : 16,
+      fontWeight: 'normal',
+      fontFamily : 'Arial'
+
+    },
+    /* icon 투명도 설정 */
+    iconContainerStyle: {
+      opacity: 1
+    }
+  },
   navigationOptions: {
     headerVisible: false, 
   }

@@ -1,5 +1,5 @@
 import React, {Component}  from "react";
-import {View, Text, Button, StyleSheet,} from "react-native";
+import {View, Text, Button, StyleSheet,Image} from "react-native";
 import {BackIcon, MenuIcon, HeaderTitle} from 'src/components/header';
 import config from 'src/config';
 
@@ -13,7 +13,7 @@ export default class Patient extends Component {
       headerRight : <MenuIcon navigation={navigation}/>,
       headerStyle : {
         backgroundColor: '#00A5BD',
-      }
+      },
     }
   };
   render() {

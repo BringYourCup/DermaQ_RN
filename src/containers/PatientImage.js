@@ -3,7 +3,7 @@ import {View, Text} from "react-native";
 import {BackIcon, MenuIcon, HeaderTitle} from 'src/components/header';
 import config from 'src/config';
 
-export default class Image extends Component {
+export default class PatientImage extends Component {
   static navigationOptions = ({ navigation }) => {
     const image=config.images.diagnosisIcon;
     return {

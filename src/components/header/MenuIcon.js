@@ -7,7 +7,7 @@ export default class MenuIcon extends Component {
     const {navigation} = this.props;
     return (
       <Icon
-        style={{marginRight : 5}}
+        style={{marginRight : 15}}
         name="menu"
         color="white"
         size={26}
