@@ -1,80 +1,111 @@
 import React, {Component} from 'react';
 import { createSwitchNavigator, createAppContainer, NavigationActions } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import {createDrawerNavigator, SlideMenu} from "react-navigation-drawer";
-import { HomeScreen, Login, Register, Patient, Diagnosis, Image, Profile, Guide, QuickSnap } from './containers';
+import {createDrawerNavigator, DrawerActions} from "react-navigation-drawer";
+import { HomeScreen, Login, Register, Patient, Diagnosis, Image, Profile, Guide, QuickSnap, Library, Setting } from 'src/containers';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {TouchableHighlight} from 'react-native';
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 
 const PatientStack = createStackNavigator({
   patient : { 
     screen : Patient,
-    headerMode: 'screen',
-    navigationOptions : ({ navigation }) => ({
-      title: "PATIENT",
-      headerLeft: <BackIcon navigation={navigation}/>
-    })
   },
   diagnosis : { 
     screen : Diagnosis,
-    headerMode: 'screen',
-    navigationOptions : ({ navigation }) => ({
-      title: "DIAGNOSIS",
-      headerLeft: <BackIcon navigation={navigation}/>
-    })
   },
   image : { 
     screen : Image,
-    headerMode: 'screen',
-    navigationOptions : ({ navigation }) => ({
-      title: "IMAGE",
-      headerLeft: <BackIcon navigation={navigation}/>
-    })
   },  
 });
 
 const QuickSnapStack = createStackNavigator({
   quicksnap : {
     screen : QuickSnap,
-    headerMode: 'screen',
-    navigationOptions : ({ navigation }) => ({
-      title: "QUICK SNAP",
-      headerLeft: <BackIcon navigation={navigation}/>
-    })
   }
 });
 
 const ProfileStack = createStackNavigator({
   profile : {
     screen : Profile,
-    headerMode: 'screen',
-    navigationOptions : ({ navigation }) => ({
-      title: "PROFILE",
-      headerLeft: <BackIcon navigation={navigation}/>
-    })
   }
 });
 
 const GuideStack = createStackNavigator({
   guide : {
     screen : Guide,
-    headerMode: 'screen',
-    navigationOptions : ({ navigation }) => ({
-      title: "GUIDE",
-      headerLeft: <BackIcon navigation={navigation}/>
-    })
+  }
+});
+
+const LibraryStack = createStackNavigator({
+  library : {
+    screen : Library,
+  }
+});
+
+const SettingStack = createStackNavigator({
+  setting : {
+    screen : Setting,
+  }
+});
+
+const DetailStacks = createDrawerNavigator({
+  home : { 
+    screen : HomeScreen,
+    navigationOptions : {
+      drawerLabel: ()=>null,
+    }
+  },
+  patients : {
+    screen : PatientStack,
+    navigationOptions : {
+      drawerLabel : "Patient"
+    }
+  },
+  quicksnaps : {
+    screen : QuickSnapStack,
+    navigationOptions : {
+      drawerLabel : "Quick Snap"
+    }
+  },
+  profiles : {
+    screen : ProfileStack,
+    navigationOptions : {
+      drawerLabel : "Profile"
+    }
+  },
+  guides : {
+    screen : GuideStack,
+    navigationOptions : {
+      drawerLabel : "Guide"
+    }
+  },
+  librarys : {
+    screen : LibraryStack,
+    navigationOptions : {
+      drawerLabel : "Library"
+    }
+  },
+  settins : {
+    screen : SettingStack,
+    navigationOptions : {
+      drawerLabel : "Setting"
+    }
+  }
+},
+{
+  headerMode: 'none',
+  drawerPosition : "right",
+  drawerLockMode: 'locked-closed',
+  drawerOpenRoute: 'DrawerRightOpen',
+  navigationOptions: {
+    headerVisible: false, 
   }
 });
 
 
 const HomeScreenStack = createStackNavigator({
   home : HomeScreen,
-  patients : PatientStack,
-  quicksnaps : QuickSnapStack,
-  profiles : ProfileStack,
-  guides : GuideStack,
+  detail : DetailStacks,
 },
 {
   headerMode: 'none',
@@ -93,7 +124,7 @@ const IntroStack = createStackNavigator({
     navigationOptions : ({ navigation }) => ({
       title: "REGISTER",
       headerVisible: true,
-      headerLeft: <BackIcon navigation={navigation}/>
+      headerLeft: <BackIcon navigation={navigation}/>,
     })
   }
 });
@@ -110,7 +141,7 @@ const RootIntroStack = createStackNavigator({
 const MainStack = createSwitchNavigator({
   intro: RootIntroStack,
   main: HomeScreen,
-  home : HomeScreenStack,
+  home2 : HomeScreenStack,
 });
 
 
@@ -140,6 +171,24 @@ class BackIcon extends Component {
         onPress={() => {
           const backAction = NavigationActions.back();
           navigation.dispatch(backAction);
+        }}
+      />
+    );
+  }
+}
+
+class MenuIcon extends Component {
+  render() {
+    const {navigation} = this.props;
+    return (
+      <Icon
+        name="menu"
+        color="#000"
+        size={26}
+        underlayColor="#4BA6F8"
+        onPress={() => {
+          const openDrawerAction = DrawerActions.toggleDrawer();
+          navigation.dispatch(openDrawerAction);
         }}
       />
     );

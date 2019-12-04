@@ -1,14 +1,13 @@
-import React, {Component}  from "react";
-import {View, Text} from "react-native";
+import React, {Component} from 'react';
+import {View, Text} from 'react-native';
 import {BackIcon, MenuIcon, HeaderTitle} from 'src/components/header';
-import config from 'src/config';
 
-export default class QuickSnap extends Component {
+export default class Setting extends Component {
   static navigationOptions = ({ navigation }) => {
-    const image=config.images.quickSnapIcon;
+    const image=null;
     return {
       headerLeft: <BackIcon navigation={navigation}/>,
-      headerTitle : <HeaderTitle image={image} title="Quick Snap" />,
+      headerTitle : <HeaderTitle image={image} title="Settings" />,
       headerRight : <MenuIcon navigation={navigation}/>,
       headerStyle : {
         backgroundColor: '#00A5BD',
@@ -18,8 +17,8 @@ export default class QuickSnap extends Component {
   render() {
     return (
       <View>
-        <Text> QuickSnap Page </Text>
+        <Text>Setting Page</Text>
       </View>
-    );
+      );
   }
 }

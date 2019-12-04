@@ -7,6 +7,8 @@ import Image from './Image';
 import Profile from './Profile';
 import Guide from './Guide';
 import QuickSnap from './QuickSnap';
+import Library from './Library';
+import Setting from './Setting';
 
 
 export {
@@ -18,5 +20,7 @@ export {
   Image,
   Profile,
   Guide,
-  QuickSnap
+  QuickSnap,
+  Setting,
+  Library,
 }
