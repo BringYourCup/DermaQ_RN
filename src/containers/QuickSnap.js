@@ -11,7 +11,7 @@ export default class QuickSnap extends Component {
       headerTitle : <HeaderTitle image={image} title="Quick Snap" />,
       headerRight : <MenuIcon navigation={navigation}/>,
       headerStyle : {
-        backgroundColor: '#00A5BD',
+        backgroundColor: config.colors.headerColor,
       }
     }
   };

@@ -18,7 +18,7 @@ class Patient extends Component {
     super();
     this.state = {
       searchValue: '',
-      
+      isFocused: false,
     };
   }
 
@@ -71,17 +71,16 @@ class Patient extends Component {
   }
 
   handleSelectPatient = (patient) => {
-    //alert("Select Patient ID: " + patient.patient_id);
-    this.props.navigation.navigate('diagnosis', {
-      patient : patient
-    })
+    alert("Select Patient ID: " + patient.patient_id);
   }
-  
 
 
   componentDidMount() {
     console.log("Paitent componentDidMount()");
-    
+    this.subs = [
+      this.props.navigation.addListener("didFocus", () => this.setState({ isFocused: true })),
+      this.props.navigation.addListener("willBlur", () => this.setState({ isFocused: false }))
+    ];
     AsyncStorage.getItem('access_info')
     .then(value => { 
       const access_info = JSON.parse(value);
@@ -112,7 +111,10 @@ class Patient extends Component {
   }
 
   render() {
-
+    if (!this.state.isFocused) {
+      
+      return null;
+    }
     const { searchValue } = this.state;
     const { searchStatus, 
       searchKey, 
@@ -122,9 +124,13 @@ class Patient extends Component {
     } = this.props;
 
     const {handleSelectPatient} = this;
+
+    console.log("searchResult : ", searchResult);
+    
     
     return (
-      <View style={styles.container}>        
+      <View style={styles.container}>
+        
         <View style={styles.body}>
           <View style={{width:"100%"}}>
             <SearchBar  
@@ -147,7 +153,7 @@ class Patient extends Component {
               <PatientList searchResult={searchResult} 
                           handleClick={handleSelectPatient}/>
             </View>
-          
+          <Button onPress={() => this.props.navigation.navigate('diagnosis')} title="Go to Diagnosis"/>
         </View>
         <View style={styles.bottom}>
           <View style={styles.bottomSub1}>

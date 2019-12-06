@@ -11,7 +11,7 @@ export default class Profile extends Component {
       headerTitle : <HeaderTitle image={image} title="Profile" />,
       headerRight : <MenuIcon navigation={navigation}/>,
       headerStyle : {
-        backgroundColor: '#00A5BD',
+        backgroundColor: config.colors.headerColor,
       }
     }
   };

@@ -11,7 +11,7 @@ export default class Setting extends Component {
       headerTitle : <HeaderTitle image={image} title="Settings" />,
       headerRight : <MenuIcon navigation={navigation}/>,
       headerStyle : {
-        backgroundColor: '#00A5BD',
+        backgroundColor: config.colors.headerColor,
       }
     }
   };

@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {Image} from 'react-native';
+import {Image, } from 'react-native';
 import { createSwitchNavigator, createAppContainer, NavigationActions } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import {createDrawerNavigator, DrawerActions} from "react-navigation-drawer";
-import { HomeScreen, Login, Register, Patient, Diagnosis, PatientImage, Profile, Guide, QuickSnap, Library, Setting } from 'src/containers';
+import { HomeScreen, Login, Register, Patient, NewPatient, Diagnosis, PatientImage, Profile, Guide, QuickSnap, Library, Setting } from 'src/containers';
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {DrawContentComponent} from "src/components/drawScreen";
 import config from 'src/config';
@@ -19,6 +19,9 @@ const libraryImage = config.images.libraryIcon;
 const PatientStack = createStackNavigator({
   patient : { 
     screen : Patient,
+  },
+  newPatient : {
+    screen : NewPatient,
   },
   diagnosis : { 
     screen : Diagnosis,
@@ -213,7 +216,7 @@ const AppContainer = createAppContainer(MainStack);
 export default class Main extends Component {
   render() {
     return (
-      <AppContainer />
+        <AppContainer />
     );
   }
 }

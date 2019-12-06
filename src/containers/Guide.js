@@ -12,7 +12,7 @@ export default class Guide extends Component {
       headerTitle : <HeaderTitle image={image} title="Guide" />,
       headerRight : <MenuIcon navigation={navigation}/>,
       headerStyle : {
-        backgroundColor: '#00A5BD',
+        backgroundColor: config.colors.headerColor,
       }
     }
   };

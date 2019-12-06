@@ -6,7 +6,7 @@ export default class Headertitle extends Component {
     const {image, title} = this.props;
     return (
       <View style={styles.container}>
-        <Image source={image}/>
+        <Image source={image} style={{width : 36, height : 36}} />
         <Text style={styles.titleText}>{title}</Text>
       </View>
     );

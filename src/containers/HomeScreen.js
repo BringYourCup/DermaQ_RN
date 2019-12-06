@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Image, StyleSheet, TouchableOpacity, ImageBackground} from 'react-native';
+import {View, Text, Image, StyleSheet, TouchableOpacity, ImageBackground, StatusBar} from 'react-native';
 import config from 'src/config';
 
 export default class HomeScreen extends Component {
@@ -11,8 +11,9 @@ export default class HomeScreen extends Component {
     const guideImage = config.images.guideIcon;
     const backGroundImage = config.images.dermateHomeScreen;
 
-    return (
+    return (      
       <View style={styles.container}>
+        <StatusBar backgroundColor={config.colors.headerColor} barStyle='light-content'/>
         <ImageBackground source={backGroundImage} style={{width : "100%", height : "100%"}}>
           <View style={styles.header}>
             <Image
