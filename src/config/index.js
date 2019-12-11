@@ -26,6 +26,7 @@ export default {
     tagBackGroundColor : "#bfbfbf",
     bottomBackGroundColor : "#f5f6fa",
     startButtonColor : "#354d67",
+    confirmButtonColor : "#354d67",
   },
   styleConstants: {
     oneThirdWidth: Dimensions.get("window").width / 3,

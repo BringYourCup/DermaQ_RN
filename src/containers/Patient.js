@@ -94,7 +94,7 @@ class Patient extends Component {
   }
 
   handleClickAddPatient = () =>{
-    alert("Press Add Patient");
+    this.props.navigation.navigate('newPatient');
   }
   
   handleClickDeletePatient = () =>{
