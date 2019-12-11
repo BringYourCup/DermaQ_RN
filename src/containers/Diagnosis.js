@@ -49,8 +49,22 @@ class Diagnosis extends Component {
       });
   }
 
+  componentDidUpdate() {
+    console.log("Diagnosis componentDidUpdate()");
+  }
+
+  handleSelectDiagnosis = (diagnosis) => {
+    //alert("Select Patient ID: " + patient.patient_id);
+    const {patient} = this.props.navigation.state.params;
+    this.props.navigation.navigate('images', {
+      diagnosis : diagnosis,
+      patient : patient,
+    })
+  }
+
   render() {
     const { navigation, searchResult } = this.props;
+    const {handleSelectDiagnosis} = this;
     const {patient} = navigation.state.params;
     console.log("Diagnosis : ", searchResult)
     return (
@@ -59,7 +73,7 @@ class Diagnosis extends Component {
           <PatientItem item={patient} handleClick={null}/>
         </View>
         <View style={styles.diagnosis_info}>
-          <DiagnosisList searchResult={searchResult}/>
+          <DiagnosisList searchResult={searchResult} handleClick={handleSelectDiagnosis}/>
         </View>
       </View>
     );
@@ -77,16 +91,16 @@ const styles = StyleSheet.create({
     
   },
   patient_info :{
-    flex : 2,
+    flex : 1,
     width:"100%", 
     paddingLeft:10, 
     paddingRight: 10
   },
   diagnosis_info : {
-    flex : 8,
+    flex : 9,
     height:"100%",
     width:"100%",  
-    backgroundColor : "red"
+    
   }
   
 })

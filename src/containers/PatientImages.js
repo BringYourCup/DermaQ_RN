@@ -8,10 +8,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as search from 'src/modules/search';
 import { PatientItem } from "src/components/patient";
-import { ImageItem } from "src/components/image";
+import { ImageList } from "src/components/image";
 
 
-class PatientImage extends Component {
+class PatientImages extends Component {
   static navigationOptions = ({ navigation }) => {
     const image=config.images.diagnosisIcon;
     return {
@@ -25,7 +25,7 @@ class PatientImage extends Component {
   };
 
   componentDidMount() {
-    console.log("Image componentDidMount()");
+    console.log("Images componentDidMount()");
     /*    
     AsyncStorage.getItem('access_info')
     .then(value => { 
@@ -51,16 +51,18 @@ class PatientImage extends Component {
     */
   }
   componentDidUpdate() {
-    console.log("Image componentDidUpdate()");
+    console.log("Images componentDidUpdate()");
   }
 
   handleSelectimage = (image) => {
-    alert("Select Image ID: " + image.image_id);
-    /*
+    const {diagnosis, patient} = this.props.navigation.state.params;
+    
     this.props.navigation.navigate('image', {
+      diagnosis : diagnosis,
+      patient : patient,
       image : image
     })
-    */
+    
   }
 
   handleClickDeleteImage = () =>{
@@ -75,24 +77,17 @@ class PatientImage extends Component {
   render() {
     const { navigation, searchResult } = this.props;
     const {handleSelectimage} = this;
-    const {image, patient, diagnosis} = navigation.state.params;
-
-
-    console.log('Patient Image : ', image);
-    console.log('Patient Diagnosis : ', diagnosis);
-    console.log('Patient Patient : ', patient);
-
-
-    const location_list = image.location_list ? image.location_list.join(' /  ')  : ' '; 
+    const {diagnosis, patient} = navigation.state.params;
+    const location_list = diagnosis.location_list ? diagnosis.location_list.join(' /  ')  : ' '; 
     const image_info = `${diagnosis.visit_date} / ${diagnosis.diagnosis.type}  / ${location_list}`;
-    const tag_list = [...new Set(image.tag_list)];
+    const tag_list = [...new Set(diagnosis.tag_list)];
     return (
       <View style={styles.container}>
         <View style={styles.patient_info}>
           <PatientItem item={patient} handleClick={null}/>
         </View>
         <View style={styles.image_list}>
-          <ImageItem item={image} handleClick={null}/>
+          <ImageList searchResult={diagnosis} handleClick={handleSelectimage}/>
         </View>
         <View style={styles.image_info}>
           <Text>{image_info}</Text>
@@ -100,7 +95,7 @@ class PatientImage extends Component {
             {tag_list.map((tag, i) => {
               return (
                 <View key={tag} style={{ alignItems : "center", paddingLeft : 5, paddingRight : 5, marginRight:10, borderRadius : 10,  backgroundColor:config.colors.tagBackGroundColor}}> 
-                  <Text style={{color:"white"}}  key={tag}>{tag}</Text>
+                  <Text style={{color:"white"}}   key={tag}>{tag}</Text>
                 </View>
               );
             })}
@@ -134,16 +129,18 @@ const styles = StyleSheet.create({
     height:"100%", 
     flex:1,
     paddingTop : 10,
+    
     flexDirection : "column",
     justifyContent : "center",
     //alignItems: "center",
+    
   },
+
   patient_info :{
     flex : 1,
     width:"100%", 
     //paddingLeft:10, 
-    //paddingRight: 10,
-    
+    //paddingRight: 10
   },
   image_list : {
     flex : 7,
@@ -167,8 +164,7 @@ const styles = StyleSheet.create({
     backgroundColor: config.colors.bottomColor,
     alignItems : "center",
     color: 'white',
-    flexDirection:"row",
-    
+    flexDirection:"row"
   },
   bottomSub1:{
     flex:2,
@@ -205,4 +201,4 @@ export default connect(
 (dispatch) => ({
     SearchActions: bindActionCreators(search, dispatch),
 })
-)(PatientImage);
+)(PatientImages);

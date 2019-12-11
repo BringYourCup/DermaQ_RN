@@ -1,3 +1,5 @@
+import { Dimensions } from "react-native";
+
 export default {
   images: {
     patientIcon : require("src/images/Patient.png"),
@@ -19,6 +21,15 @@ export default {
     headerColor : "#00A5BD",
     bottomColor : "#00A5BD",
     loadingCircleColor : "#00A5BD",
+    imageBackGroundColor : "#00A5BD",
+    imageDateColor : "#99dbe5",
+    tagBackGroundColor : "#bfbfbf",
+    bottomBackGroundColor : "#f5f6fa",
+    startButtonColor : "#354d67",
+  },
+  styleConstants: {
+    oneThirdWidth: Dimensions.get("window").width / 3,
+    width: Dimensions.get("window").width
   },
   baseUrl : 'https://dermaster.io'
   //baseUrl : "http://localhost:3000/api/"

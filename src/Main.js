@@ -3,8 +3,7 @@ import {Image, } from 'react-native';
 import { createSwitchNavigator, createAppContainer, NavigationActions } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import {createDrawerNavigator, DrawerActions} from "react-navigation-drawer";
-import { HomeScreen, Login, Register, Patient, NewPatient, Diagnosis, PatientImage, Profile, Guide, QuickSnap, Library, Setting } from 'src/containers';
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { HomeScreen, Login, Register, Patient, NewPatient, Diagnosis, PatientImages, PatientImage, Profile, Guide, QuickSnap, Library, Setting, QRcodeScan, StartScreen } from 'src/containers';
 import {DrawContentComponent} from "src/components/drawScreen";
 import config from 'src/config';
 
@@ -25,6 +24,9 @@ const PatientStack = createStackNavigator({
   },
   diagnosis : { 
     screen : Diagnosis,
+  },
+  images : { 
+    screen : PatientImages,
   },
   image : { 
     screen : PatientImage,
@@ -191,9 +193,22 @@ const IntroStack = createStackNavigator({
   }
 });
 
+const IntroStack2 = createStackNavigator({
+  start : {
+    screen : StartScreen,
+    navigationOptions : {
+      header: null,
+    }
+  },
+  qrcodescan : {
+    screen : QRcodeScan,
+  }
+});
+
 const RootIntroStack = createStackNavigator({
   RootIntroStack:{
-    screen : IntroStack,
+    //screen : IntroStack,
+    screen: IntroStack2,
     navigationOptions: {
       header: null,
     }
@@ -201,7 +216,7 @@ const RootIntroStack = createStackNavigator({
 })
 
 const MainStack = createSwitchNavigator({
-  intro: RootIntroStack,
+  intro: IntroStack2,
   main: HomeScreen,
   home2 : HomeScreenStack,
 });
@@ -220,40 +235,3 @@ export default class Main extends Component {
     );
   }
 }
-
-class BackIcon extends Component {
-  render() {
-    const {navigation} = this.props;
-    return (
-      <Icon
-        name="chevron-left"
-        color="#000"
-        size={26}
-        underlayColor="#4BA6F8"
-        onPress={() => {
-          const backAction = NavigationActions.back();
-          navigation.dispatch(backAction);
-        }}
-      />
-    );
-  }
-}
-
-class MenuIcon extends Component {
-  render() {
-    const {navigation} = this.props;
-    return (
-      <Icon
-        name="menu"
-        color="#000"
-        size={26}
-        underlayColor="#4BA6F8"
-        onPress={() => {
-          const openDrawerAction = DrawerActions.toggleDrawer();
-          navigation.dispatch(openDrawerAction);
-        }}
-      />
-    );
-  }
-}
-

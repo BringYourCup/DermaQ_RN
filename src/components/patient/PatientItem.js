@@ -21,12 +21,11 @@ class PatientItem extends Component {
     return (
       <View style={styles.container}>
           <View style={styles.bodyLeft}>
-            <Image source={config.images.patientEmptyImage} 
+            <Image source={config.images.patientEmptyImage} resizeMode="contain"
             style={{width : 25, height : 25}}/>
           </View>
           
           <TouchableOpacity style={styles.bodyMiddle} onPress={()=>handleClick(item)}>
-            
               <View style={styles.patientName}>
                 <Text style={styles.textStyle}>{item.name}</Text>
               </View>
@@ -58,6 +57,7 @@ const styles = StyleSheet.create({
     flexDirection : "row",
     paddingBottom:5,
     paddingTop:5,
+    
   },
   textStyle: {
     fontFamily : "Arial",
