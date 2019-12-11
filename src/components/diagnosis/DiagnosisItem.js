@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from "react-native";
+import {View, Text, StyleSheet, Image, TouchableOpacity, ScrollView} from "react-native";
 import config from 'src/config';
 
 
@@ -32,9 +32,9 @@ class DiagnosisItem extends Component {
               <View style={styles.diagnosis_disease}>
                 <Text>{item.diagnosis.type}</Text>
               </View>
-              <View style={styles.diagnosis_location}>
+              <ScrollView style={styles.diagnosis_location}>
                 <Text>{location_list}</Text>
-              </View>
+              </ScrollView>
           </TouchableOpacity>
       </View>)
   }
@@ -81,14 +81,16 @@ const styles = StyleSheet.create({
     flexDirection : "column",
   },
   diagnosis_date:{
-    flex : 1.5,
-    
+    flex : 1,
+    //backgroundColor:"red"
   },
   diagnosis_disease :{
     flex : 1,
+    //backgroundColor:"blue"
   },
   diagnosis_location : {
-    flex : 1,
+    flex : 1.5,
+    //backgroundColor:"red"
   },
 
   

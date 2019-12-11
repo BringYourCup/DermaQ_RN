@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {FlatList, } from "react-native";
+import {FlatList, View} from "react-native";
 import PatientItem from "./PatientItem";
 
 
@@ -14,6 +14,18 @@ class PatientList extends Component {
   _keyExtractor(item) {
     return item.patient_id;
   }
+  renderSeparator = () => {
+    return (
+      <View
+        style={{
+          height: 1,
+          width: '86%',
+          backgroundColor: '#CED0CE',
+          marginLeft: '14%',
+        }}
+      />
+    );
+  }
   render() {
     const {searchResult, } = this.props;
     return (
@@ -22,6 +34,7 @@ class PatientList extends Component {
           keyExtractor={(item) => this._keyExtractor(item)}
           renderItem={(item) => this._renderPost(item, this.props)}
           contentContainerStyle={{ paddingBottom: 100}}
+          ItemSeparatorComponent={this.renderSeparator}
            />
       
     )
