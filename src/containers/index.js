@@ -13,6 +13,9 @@ import Library from './Library';
 import Setting from './Setting';
 import QRcodeScan from './QRcodeScan';
 import StartScreen from './StartScreen';
+import NewPatientCamera from './NewPatientCamera';
+import NewPatientCameraCrop from './NewPatientCameraCrop';
+
 
 export {
   HomeScreen,
@@ -20,6 +23,8 @@ export {
   Register,
   Patient,
   NewPatient,
+  NewPatientCamera,
+  NewPatientCameraCrop,
   Diagnosis,
   PatientImages,
   PatientImage,

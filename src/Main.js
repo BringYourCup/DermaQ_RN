@@ -3,9 +3,10 @@ import {Image, } from 'react-native';
 import { createSwitchNavigator, createAppContainer, NavigationActions } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import {createDrawerNavigator, DrawerActions} from "react-navigation-drawer";
-import { HomeScreen, Login, Register, Patient, NewPatient, Diagnosis, PatientImages, PatientImage, Profile, Guide, QuickSnap, Library, Setting, QRcodeScan, StartScreen } from 'src/containers';
+import { HomeScreen, Login, Register, Patient, NewPatient, NewPatientCamera, Diagnosis, PatientImages, PatientImage, Profile, Guide, QuickSnap, Library, Setting, QRcodeScan, StartScreen } from 'src/containers';
 import {DrawContentComponent} from "src/components/drawScreen";
 import config from 'src/config';
+import { NewPatientCameraCrop } from './containers';
 
 
 const patientImage = config.images.patientIcon;
@@ -21,6 +22,12 @@ const PatientStack = createStackNavigator({
   },
   newPatient : {
     screen : NewPatient,
+  },
+  newPatientCamera : {
+    screen : NewPatientCamera,
+  },
+  newPatientCameraCrop : {
+    screen : NewPatientCameraCrop,
   },
   diagnosis : { 
     screen : Diagnosis,

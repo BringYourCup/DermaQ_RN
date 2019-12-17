@@ -33,8 +33,9 @@ class PatientList extends Component {
           data={searchResult.patient_list} 
           keyExtractor={(item) => this._keyExtractor(item)}
           renderItem={(item) => this._renderPost(item, this.props)}
-          contentContainerStyle={{ paddingBottom: 100}}
+          contentContainerStyle={{ paddingBottom: 100, }}
           ItemSeparatorComponent={this.renderSeparator}
+          
            />
       
     )

@@ -7,6 +7,9 @@ class ImageList extends Component {
   
   render() {
     const {searchResult, handleClick } = this.props;
+    if(!searchResult.image_list){
+      return null;
+    }
     return (
         <ScrollView  >
           <View style={styles.container} >

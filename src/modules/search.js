@@ -74,7 +74,7 @@ function searchService(token,
                         skip,
                         limit,
                         ) {
-
+                            console.log("BBBBBBBBBBBBBBBBAAAAASSSEEEE : ", config.baseUrl);
     return axios.post(config.baseUrl + '/api', {
         "data": {
             "category": category,

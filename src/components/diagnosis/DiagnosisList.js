@@ -5,6 +5,10 @@ import DiagnosisItem from "./DiagnosisItem";
 
 class DiagnosisList extends Component {
 
+  state = {
+    refreshing : false
+  }
+
   _renderPost({item}, props) {
     const {handleClick} = props;
     return (
@@ -27,7 +31,7 @@ class DiagnosisList extends Component {
     );
   }
   render() {
-    const {searchResult, } = this.props;
+    const {searchResult, onRefresh } = this.props;
     return (
         <FlatList
           data={searchResult.date_list} 
@@ -35,6 +39,8 @@ class DiagnosisList extends Component {
           renderItem={(item) => this._renderPost(item, this.props)}
           contentContainerStyle={{ paddingBottom: 100}}
           ItemSeparatorComponent={this.renderSeparator}
+          onRefresh={onRefresh}
+          refreshing={this.state.refreshing}
            />
       
     )

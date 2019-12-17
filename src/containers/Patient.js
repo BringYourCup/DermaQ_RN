@@ -19,7 +19,8 @@ class Patient extends Component {
     this.state = {
       searchValue: '',
       isFocused: false,
-      searchData : []
+      searchData : [],
+      refreshing: false,
     };
   }
 
@@ -171,7 +172,9 @@ class Patient extends Component {
     if(prevState.isFocused != isFocused && isFocused){
         AsyncStorage.getItem('access_info')
       .then(value => { 
+        console.log("value, ", value);
         const access_info = JSON.parse(value);
+        console.log("access_info : ", access_info);
         const { SearchActions, condition, searchKey  } = this.props;
 
         let order = searchKey[condition].order;
@@ -193,6 +196,28 @@ class Patient extends Component {
       this.setState({searchData : this.props.searchResult.patient_list});
     }
     console.log("searchData : ", this.state.searchData);
+  }
+  onRefresh = () => {
+    AsyncStorage.getItem('access_info')
+      .then(value => { 
+        console.log("value, ", value);
+        const access_info = JSON.parse(value);
+        console.log("access_info : ", access_info);
+        const { SearchActions, condition, searchKey  } = this.props;
+
+        let order = searchKey[condition].order;
+        let order_by = searchKey[condition].order_by;
+        SearchActions.getMainList(access_info.access_token, 
+            condition, 
+            order,
+            order_by,
+            null, 
+            null,
+            null,
+            null,
+            null,
+            )
+        });
   }
 
   searchHeader = () => {
@@ -225,7 +250,7 @@ class Patient extends Component {
   }
   render() {
 
-    const { searchData } = this.state;
+    const { searchData, refreshing } = this.state;
     const {handleSelectPatient} = this;
 
     return (
@@ -259,8 +284,11 @@ class Patient extends Component {
               ItemSeparatorComponent={this.renderSeparator}
               ListHeaderComponent={this.searchHeader}
               stickyHeaderIndices={[0]}
+              refreshing={refreshing}
+              onRefresh={this.onRefresh}
               //contentContainerStyle={{ paddingBottom: 50}}
             />
+            
           </View>
           {/*
           <View style={{width:"100%", paddingLeft:5, paddingRight: 5}}>

@@ -10,12 +10,9 @@ export default class QRcodeScan extends Component {
   constructor() {
     super();
     this.state = {
-      //variable to hold the qr value
+      //variable to hold the qr valuep
       qrvalue: '',
       opneScanner: true,
-      loginStatus: 'noaccount',
-      email: "lazysupport@dermaster.io",
-      password: "Hotice1234!1",
     };
   }
 
@@ -31,34 +28,36 @@ export default class QRcodeScan extends Component {
     }
   }
 
-  login = async (status) => {
-    let send_data = null;
-
-    
-    switch(status){
-      case "SignIn":
-          send_data = {
-            category: "public",
-            service: "SignIn",
-            account: this.state.email,
-            password: this.state.password,
-        }
-        break;
-    }
+  login = async (qrvalue) => {
+    let access_info = JSON.parse(qrvalue);
     try {
-      const response = 
-        await axios.post(config.baseUrl + '/api/', {"data" : send_data});
-      if(response.data.data) {
-        await AsyncStorage.setItem('access_info', JSON.stringify(response.data.data));
-        this.props.navigation.navigate("home");
+      if (!access_info.access_token){
+        throw new Error("Access Token is not set");
+      } else {
+        let send_data = {
+          category: "private",
+          service: "GetUserInformation",
+          access_token: access_info.access_token,
+        }
+        const response = await axios.post(config.baseUrl + '/api/', {"data" : send_data});
+        console.log("GetUserInformation : ", response.data.data);
+        if(response.data.err){
+          throw new Error("Access Token is not avaliable");
+        }
       }
+      await AsyncStorage.setItem('access_info', JSON.stringify(access_info));
+      config.baseUrl = access_info.host;
+      //config.baseUrl = "https://" + access_info.ip + ':' + access_info.port;
+      this.props.navigation.navigate("home");
+      
     } catch (err) {
-      console.log(err);
+      alert(err.message);
     }
   }
 
   componentDidMount() {
-    console.log("QR CODE SCAN componentDidMount()");  
+    console.log("QR CODE SCAN componentDidMount()");
+    this.onOpneScanner(); 
   }
 
   onOpenlink() {
@@ -66,13 +65,15 @@ export default class QRcodeScan extends Component {
     Linking.openURL(this.state.qrvalue);
     //Linking used to open the URL in any browser that you have installed
   }
+
   onBarcodeScan(qrvalue) {
     //called after te successful scanning of QRCode/Barcode
-    console.log("AAAAAAAAAAAAA")
+    console.log("QR CODE SCAN : ", qrvalue);
     this.setState({ qrvalue: qrvalue });
     this.setState({ opneScanner: false });
-    this.login("SignIn");
+    this.login(qrvalue);
   }
+
   onOpneScanner() {
     var that =this;
     //To Start Scanning

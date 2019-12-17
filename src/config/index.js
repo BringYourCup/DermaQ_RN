@@ -16,6 +16,7 @@ export default {
     trashIcon : require('src/images/TrashIcon.png'),
     patientEmptyImage : require('src/images/PatientEmptyImage.png'),
     favoriteImage : require('src/images/FavoriteImage.png'),
+    emptyPictureImage : require('src/images/EmptyPictureImage.png'),
   },
   colors :{
     headerColor : "#00A5BD",
@@ -27,11 +28,15 @@ export default {
     bottomBackGroundColor : "#f5f6fa",
     startButtonColor : "#354d67",
     confirmButtonColor : "#354d67",
+    nextButtonColor : "#354d67",
+    textborderBottomColor : "#a8a8a8",
+    placeholderTextColor : "#a8a8a8",
   },
   styleConstants: {
     oneThirdWidth: Dimensions.get("window").width / 3,
     width: Dimensions.get("window").width
   },
-  baseUrl : 'https://dermaster.io'
+  //baseUrl : 'https://dermaster.lazybird.kr'
   //baseUrl : "http://localhost:3000/api/"
+  baseUrl : 'https://dermaster.lazybird.kr'
 };

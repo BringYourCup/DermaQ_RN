@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "1.6.3",
+    "@react-native-community/datetimepicker": "2.1.0",
     "@typescript-eslint/eslint-plugin": "^2",
     "@typescript-eslint/parser": "^2.0.0",
     "axios": "0.19.0",
@@ -18,9 +19,12 @@
     "immutable": "4.0.0-rc.12",
     "react": "16.9.0",
     "react-native": "0.61.5",
+    "react-native-camera": "3.14.0",
     "react-native-camera-kit": "8.0.4",
+    "react-native-datepicker": "1.7.2",
     "react-native-elements": "1.2.7",
     "react-native-gesture-handler": "1.5.2",
+    "react-native-image-crop-picker": "0.26.1",
     "react-native-keyboard-aware-scroll-view": "0.9.1",
     "react-native-reanimated": "1.4.0",
     "react-native-screens": "^1.0.0-alpha.23",
@@ -32,6 +36,8 @@
     "redux": "4.0.4",
     "redux-actions": "2.6.5",
     "redux-thunk": "2.3.0",
+    "three": "0.111.0",
+    "three-orbit-controls": "82.1.0",
     "typescript": "3.7.2"
   },
   "devDependencies": {

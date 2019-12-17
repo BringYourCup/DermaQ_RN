@@ -49,6 +49,30 @@ class Diagnosis extends Component {
       });
   }
 
+  onRefresh = () => {
+    AsyncStorage.getItem('access_info')
+    .then(value => { 
+      const access_info = JSON.parse(value);
+      const { SearchActions, condition, searchKey  } = this.props;
+      const {patient} = this.props.navigation.state.params;
+
+      console.log("patient_id : ", patient);
+
+      let order = searchKey[condition].order;
+      let order_by = searchKey[condition].order_by;
+      SearchActions.getMainList(access_info.access_token, 
+          "date", 
+          order,
+          order_by,
+          { patient_id : patient.patient_id}, 
+          null,
+          null,
+          null,
+          null,
+          );
+      });
+  }
+
   componentDidUpdate() {
     console.log("Diagnosis componentDidUpdate()");
   }
@@ -70,11 +94,12 @@ class Diagnosis extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.patient_info}>
-          <PatientItem item={patient} handleClick={null}/>
+          <PatientItem item={patient} handleClick={()=>{}}/>
         </View>
-        <View style={styles.diagnosis_info}>
-          <DiagnosisList searchResult={searchResult} handleClick={handleSelectDiagnosis}/>
-        </View>
+          <View style={styles.diagnosis_info}>
+          {searchResult.date_list && searchResult.date_list.length > 0 ?
+            <DiagnosisList searchResult={searchResult} handleClick={handleSelectDiagnosis} onRefresh={this.onRefresh} />  : null}
+          </View>
       </View>
     );
   }

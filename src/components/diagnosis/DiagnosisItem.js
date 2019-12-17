@@ -11,21 +11,24 @@ class DiagnosisItem extends Component {
 
     const location_list = item.location_list ? item.location_list.join(' /  ')  : ' '; 
     const imageUrl = item.image_list ? item.image_list[0].uri.thumbnail : '';
-    const imageCount = item.image_number;
+    const imageCount = item.image_number || 0;
 
     console.log("AAAA : ", imageUrl);
 
     return (
-      <View style={styles.container}>
+      <TouchableOpacity style={styles.container} onPress={()=>handleClick(item)}>
           <View style={styles.bodyLeft}>
             <View style={styles.diagnosis_image}>
-              <Image source={{uri : imageUrl}} style={{borderRadius : 7, width : 75, height : 70, }}/>
+              {imageUrl.length > 0 ?
+                 <Image source={{uri : imageUrl}} style={{borderRadius : 7, width : 75, height : 70, }}/> 
+                 :
+                 null }
             </View>
             <View style={styles.diagnosis_image_count}>
               <Text style={{color : "white", fontWeight: "bold"}}>{imageCount}</Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.bodyMiddle} onPress={()=>handleClick(item)}>
+          <View style={styles.bodyMiddle} >
               <View style={styles.diagnosis_date}>
                 <Text style={{borderRadius : 5, backgroundColor : config.colors.imageDateColor, width : 100, textAlign : "center"}}>{item.visit_date}</Text>
               </View>
@@ -35,8 +38,8 @@ class DiagnosisItem extends Component {
               <ScrollView style={styles.diagnosis_location}>
                 <Text>{location_list}</Text>
               </ScrollView>
-          </TouchableOpacity>
-      </View>)
+          </View>
+      </TouchableOpacity>)
   }
 }
 
