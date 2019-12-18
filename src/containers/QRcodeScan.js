@@ -17,14 +17,9 @@ export default class QRcodeScan extends Component {
   }
 
   static navigationOptions = ({ navigation }) => {   
-    const image=config.images.diagnosisIcon;
     return {
-      headerLeft: <BackIcon navigation={navigation}/>,
-      headerTitle : <HeaderTitle image={image} title="QRCODE SCAN" />,
-      headerRight : <MenuIcon navigation={navigation}/>,
-      headerStyle : {
-        backgroundColor: config.colors.headerColor,
-      }
+      header : null
+      
     }
   }
 
@@ -40,7 +35,6 @@ export default class QRcodeScan extends Component {
           access_token: access_info.access_token,
         }
         const response = await axios.post(config.baseUrl + '/api/', {"data" : send_data});
-        console.log("GetUserInformation : ", response.data.data);
         if(response.data.err){
           throw new Error("Access Token is not avaliable");
         }
@@ -136,17 +130,27 @@ export default class QRcodeScan extends Component {
     return (
       <View style={{ flex: 1 }}>
         <CameraKitCameraScreen
+          actions={{ rightButtonText: 'Done', leftButtonText: 'Cancel' }}
+          onBottomButtonPressed={() => this.props.navigation.goBack()}
+          cameraOptions={{
+            flashMode: 'auto',             // on/off/auto(default)
+            focusMode: 'on',               // off/on(default)
+            zoomMode: 'on',                // off/on(default)
+            ratioOverlay:'1:1',            // optional, ratio overlay on the camera and crop the image seamlessly
+            ratioOverlayColor: '#00000077' // optional
+          }}
           showFrame={true}
           //Show/hide scan frame
           scanBarcode={true}
           //Can restrict for the QR Code only
-          //laserColor={'blue'}
+          laserColor={'blue'}
           //Color can be of your choice
-          frameColor={'yellow'}
+          frameColor={'white'}
           //If frame is visible then frame color
           colorForScannerFrame={'black'}
-          heightForScannerFrame = {100}
-          offsetForScannerFrame ={10}
+          //heightForScannerFrame = {0}
+          //offsetForScannerFrame ={0}
+          //hideControls={true}
           //Scanner Frame color
           onReadCode={event =>
             this.onBarcodeScan(event.nativeEvent.codeStringValue)

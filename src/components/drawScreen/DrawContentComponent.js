@@ -19,7 +19,7 @@ export default class DrawContentComponent extends Component {
     return (
         <View style={styles.container}>
             <View style={styles.headerContainer}>
-                <Image source={config.images.dermateLogImage} style={{width :50, height :50}}/>
+                <Image source={config.images.profileIcon} style={{marginLeft: 10, width :50, height :50}}/>
                 <Text style={styles.headerText}>Dr. Kim</Text>
             </View>
             <View style={styles.screenContainer}>
@@ -49,11 +49,13 @@ const styles = StyleSheet.create({
         padding : 10,
         alignItems: 'center',
         width :"100%",
+        backgroundColor : config.colors.headerColor,
         
     },
     headerText: {
         fontSize: 20,
         marginLeft: 10, 
+        color : "white",
     },
     screenContainer: { 
         width: '100%',

@@ -9,7 +9,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as search from 'src/modules/search';
-import {PatientList, PatientItem} from 'src/components/patient';
+import {PatientEditItem, PatientItem} from 'src/components/patient';
+import axios from 'axios';
+import {ConfirmDialog} from "src/components/dialog";
+
 
 
 class Patient extends Component {  
@@ -21,6 +24,12 @@ class Patient extends Component {
       isFocused: false,
       searchData : [],
       refreshing: false,
+      selectedPatient : [],
+      access_info : null,
+
+      isDeletable : false,
+      isEditable : false,
+      isDeleteConfirm : false,
     };
   }
 
@@ -73,6 +82,10 @@ class Patient extends Component {
       isHeaderVisible: true,
     });
   }
+  handleClearText(){
+    console.log("handleOnClearText");
+    this.setState({searchValue: ''});
+  }
 
   handleCancel = () => {   
     console.log("handleCancel");
@@ -94,14 +107,86 @@ class Patient extends Component {
     });
   }
 
-  handleClickAddPatient = () =>{
-    this.props.navigation.navigate('newPatient');
+  /* ICON CLICK 관련 함수 */
+  handleClickAddPatientIcon = () =>{
+    this.props.navigation.navigate('newPatient',
+    { patient : null,
+      title : "New Patient"
+    });
   }
-  
-  handleClickDeletePatient = () =>{
-    alert("Press Delete Patient");
+  handleClickDeletePatientIcon = () =>{
+    this.setState({isDeletable : true});
+  }
+  handleClickQuickSnapIcon = () =>{
+    alert("Press Quick Snap");
+  }
+  handleClickEditPatientIcon = () => {
+    this.setState({isEditable : true});
   }
 
+  /* 동작 관련 함수 */
+  handleSelectEditPatient = (patient) => {
+    this.props.navigation.navigate('newPatient', 
+      { patient : patient,
+        title : "Edit Patient Info"
+      });
+  }
+
+  /* 삭제 버튼 눌렀을 때 함수 */
+  handleClickDeleteButton =  () => {
+    //alert(JSON.stringify(this.state.selectedPatient));
+    this.setState({isDeleteConfirm : true});
+  }
+  handleClickNoOnDeleteConfirmButton =  () => {
+    //alert(JSON.stringify(this.state.selectedPatient));
+    this.setState({isDeleteConfirm : false});
+  }
+
+  deletePatient = () => {
+    const { access_info, selectedPatient }= this.state; 
+    try {
+      const arr = [...selectedPatient];
+      arr.forEach( async item => {
+        const send_data = {
+            "category": "patient",
+            "service": "DeletePatient",
+            "access_token": access_info.access_token,
+            "patient_id" : item,
+        };
+        const response = await axios.post(config.baseUrl + '/api/', 
+          {"data" : send_data});
+          if(response.data.err){
+            throw new Error(response.data.err);
+          }
+      });
+      this.onRefresh();
+      this.setState({isDeletable : false, isDeleteConfirm : false});
+    } catch (err) {
+      console.log("DeletePatient err : ", err)
+    }
+  }
+
+  handleSelectDeletePatient = (id, operation ) => {
+    let arr = [...this.state.selectedPatient];
+    if(operation =="add"){
+      arr.push(id)
+    } else {
+      const idx = arr.indexOf(id);
+      if(idx > -1) arr.splice(idx, 1);
+    }
+    this.setState({selectedPatient : arr});
+  }
+
+
+  /* 취소 버튼 눌렀을 때 함수 */
+  handleClickCancelButton = () => {
+    this.setState({
+      isEditable : false,
+      isDeletable : false,
+      selectedPatient : []});
+  }
+
+  /* 환자 리스트에서 환자 선택했을 때 함수 */
   handleSelectPatient = (patient) => {
     //alert("Select Patient ID: " + patient.patient_id);
     this.setState({
@@ -126,34 +211,18 @@ class Patient extends Component {
       />
     );
   }
-  
-
 
   componentDidMount() {
     console.log("Paitent componentDidMount()");
-    /*
     AsyncStorage.getItem('access_info')
     .then(value => { 
       const access_info = JSON.parse(value);
-      const { SearchActions, condition, searchKey  } = this.props;
-
-      let order = searchKey[condition].order;
-      let order_by = searchKey[condition].order_by;
-      SearchActions.getMainList(access_info.access_token, 
-          condition, 
-          order,
-          order_by,
-          null, 
-          null,
-          null,
-          null,
-          null,
-          );
-      });
-      */
+      this.setState({access_info : access_info});
+    });
       this.subs = [
-        this.props.navigation.addListener("didFocus", () => {console.log("didFocus"); this.setState({ isFocused: true });}),
-        this.props.navigation.addListener("willBlur", () => {console.log("willBlur"); this.setState({ isFocused: false });}),
+        this.props.navigation.addListener(
+          "didFocus", () => {console.log("didFocus"); this.setState({ isFocused: true, isDeletable: false, isEditable:false });}),
+        this.props.navigation.addListener("willBlur", () => {console.log("willBlur"); this.setState({ isFocused: false, isDeletable: false, isEditable:false });}),
         this.props.navigation.addListener("willFocus", () => console.log("willFocus")),
         this.props.navigation.addListener("didBlur", () => console.log("didBlur")),
       ];
@@ -190,8 +259,8 @@ class Patient extends Component {
             null,
             )
         });
-        
     }
+    
     if(prevProps.searchResult.patient_list != this.props.searchResult.patient_list){
       this.setState({searchData : this.props.searchResult.patient_list});
     }
@@ -244,42 +313,38 @@ class Patient extends Component {
     );
   }
 
-  handleClearText(){
-    console.log("handleOnClearText");
-    this.setState({searchValue: ''});
-  }
+  
   render() {
 
-    const { searchData, refreshing } = this.state;
-    const {handleSelectPatient} = this;
+    console.log("Patient render() : ", this.state.isDeleteConfirm)
+    const { searchData, refreshing, isEditable, isDeletable, isDeleteConfirm} = this.state;
+    const {handleSelectPatient, handleSelectEditPatient, handleSelectDeletePatient} = this;
+    let renderItem;
+    if(isEditable){
+      renderItem = ({ item }) => (
+        <PatientEditItem item={item} isEditable={true} isDeletable={false} handleClick={handleSelectEditPatient}/>)
+    } else if(isDeletable){
+      renderItem = ({ item }) => (
+        <PatientEditItem item={item} isEditable={false} isDeletable={true} handleClick={handleSelectDeletePatient}/>)
+    } else {
+      renderItem = ({ item }) => (
+        <PatientItem item={item} handleClick={handleSelectPatient}/>)
+    }
 
     return (
-      <View style={styles.container}>        
+      <View style={styles.container}>     
+          <ConfirmDialog 
+              titleText="Delete Patient" 
+              contentText="Delete Patient Information?"
+              clickNoButton={this.handleClickNoOnDeleteConfirmButton}
+              clickYesButton={this.deletePatient}
+              isVisable={isDeleteConfirm}
+              />
         <View style={styles.body}>
-          {/*
-          <View style={{width:"100%"}}>
-            <SearchBar  
-              platform={Platform.OS === "ios" ? "ios" : "android"}
-              cancelButtonTitle="Cancel"
-              inputStyle={{height : 40}} 
-              containerStyle={{backgroundColor:"#FBFBFB",
-                borderBottomColor: 'transparent', borderTopColor: 'transparent'}} 
-              inputContainerStyle={{backgroundColor : '#f5f6fa'}}
-              placeholder="Search for Patients"
-              onChangeText={this.searchFilterFunction}
-              onSubmitEditing ={()=>this.handleSearch()}
-              onFocus         ={()=>this.handleFocus()}
-              onCancel         ={()=>this.handleCancel()}
-              value={searchValue}
-            />
-          </View>
-          */}
            <View style={{ width:"100%"}}>
             <FlatList
               data={searchData}
-              renderItem={({ item }) => (
-                <PatientItem item={item} handleClick={handleSelectPatient}/>
-              )}
+              renderItem={renderItem}
               keyExtractor={item => item.patient_id}
               ItemSeparatorComponent={this.renderSeparator}
               ListHeaderComponent={this.searchHeader}
@@ -290,30 +355,56 @@ class Patient extends Component {
             />
             
           </View>
-          {/*
-          <View style={{width:"100%", paddingLeft:5, paddingRight: 5}}>
-              <PatientList searchResult={searchResult} 
-                          handleClick={handleSelectPatient}/>
+        </View>
+        {isEditable &&
+          <View style={styles.bottomCancel}>
+            <TouchableOpacity style={styles.cancelButton} onPress={() => this.handleClickCancelButton()}>
+              <Text style={styles.cancelButtonText}>Cancel</Text>
+          </TouchableOpacity>
+          </View>
+        }
+        {isDeletable &&
+          <View style={styles.bottomDelete}>
+            <View style={styles.bottomDeleteSub1}>
+              <TouchableOpacity style={styles.cancelButton} onPress={() => this.handleClickCancelButton()}>
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
             </View>
-          */}
-        </View>
-        <View style={styles.bottom}>
-          <View style={styles.bottomSub1}>
-            
+            <View style={styles.bottomDeleteSub1}>
+              <TouchableOpacity style={styles.deleteButton} onPress={() => this.handleClickDeleteButton()}>
+                  <Text style={styles.deleteButtonText}>Delete</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={styles.bottomSub2}>
-            <TouchableOpacity style={styles.bottomItem} onPress ={() =>{
-              this.handleClickAddPatient();
-            }}>
-              <Image style={{width:28, height:28}} source={config.images.addIcon}/>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.bottomItem} onPress ={() =>{
-              this.handleClickDeletePatient();
-            }}>
-              <Image style={{width:28, height:28, marginLeft:15}} source={config.images.trashIcon}/>
-            </TouchableOpacity>
+        }
+        {!isEditable && !isDeletable &&
+          <View style={styles.bottom}>
+            <View style={styles.bottomSub1}>
+              <TouchableOpacity style={styles.bottomItem} onPress ={() =>{
+                  this.handleClickQuickSnapIcon();
+                }}>
+                  <Image style={{width:45, height:45}} source={config.images.quickSnapIcon}/>
+                </TouchableOpacity>        
+            </View>
+            <View style={styles.bottomSub2}>
+              <TouchableOpacity style={styles.bottomItem} onPress ={() =>{
+                this.handleClickAddPatientIcon();
+              }}>
+                <Image style={{width:45, height:45}} source={config.images.addIcon}/>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.bottomItem} onPress ={() =>{
+                this.handleClickEditPatientIcon();
+              }}>
+                <Image style={{width:45, height:45, marginLeft:10}} source={config.images.editIcon}/>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.bottomItem} onPress ={() =>{
+                this.handleClickDeletePatientIcon();
+              }}>
+                <Image style={{width:45, height:45, marginLeft:10}} source={config.images.trashIcon}/>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        }
       </View>
     );
   }
@@ -333,22 +424,71 @@ const styles = StyleSheet.create({
   },
   bottom:{
     flex:1,
-    justifyContent:"center",
     backgroundColor: config.colors.bottomColor,
     alignItems : "center",
     color: 'white',
-    flexDirection:"row"
+    flexDirection:"row",
   },
   bottomSub1:{
-    flex:8,
+    flex:5,
+    marginLeft : 5
+    
   },
   bottomSub2:{
-    flex:2,
+    flex:5,
     flexDirection:"row",
-    marginRight : 15,
+    justifyContent : "space-around",
+    marginRight:5,
+    marginLeft:5,
+    
   },
   bottomItem:{
     //color : "white",
+  },
+  bottomCancel:{
+    flex:1,
+    backgroundColor: config.colors.bottomColor,
+    justifyContent : "center",
+  },
+  bottomDelete:{
+    flex:1,
+    backgroundColor: config.colors.bottomColor,
+    flexDirection : "row"
+  },
+  bottomDeleteSub1 :{
+    flex:1,
+    justifyContent : "center",
+  },
+  cancelButton : {
+    width : "95%",
+    backgroundColor: config.colors.confirmButtonColor,
+    padding: 10,
+    margin : 10,
+    borderRadius: 5,
+    justifyContent : "center",
+    alignSelf : "center",
+  },
+  cancelButtonText : {
+    alignItems : "center",
+    color : "white",
+    textAlign : "center",
+    fontSize : 18 
+  },
+  deleteButton : {
+    width : "95%",
+    backgroundColor: config.colors.confirmButtonColor,
+    padding: 10,
+    margin : 10,
+    borderRadius: 5,
+    justifyContent : "center",
+    alignSelf : "center",
+    
+  },
+  deleteButtonText : {
+    alignItems : "center",
+    color : "white",
+    textAlign : "center",
+    fontSize : 18,
   },
 })
 

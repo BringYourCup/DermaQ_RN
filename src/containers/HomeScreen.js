@@ -7,13 +7,13 @@ export default class HomeScreen extends Component {
     const dermateLogImage = config.images.dermateLogImage;
     const patientImage = config.images.patientIcon;
     const quickSnapImage = config.images.quickSnapIcon;
-    const profileImage = config.images.profileIcon;
-    const guideImage = config.images.guideIcon;
+    const liveImage = config.images.liveIcon;
+    const galleryImage = config.images.galleryIcon;
     const backGroundImage = config.images.dermateHomeScreen;
 
     return (      
       <View style={styles.container}>
-        <StatusBar backgroundColor={config.colors.headerColor} barStyle='light-content'/>
+        <StatusBar backgroundColor={config.colors.statusBarColor} barStyle='light-content'/>
         <ImageBackground source={backGroundImage} style={{width : "100%", height : "100%"}}>
           <View style={styles.header}>
             <Image
@@ -37,17 +37,17 @@ export default class HomeScreen extends Component {
               </TouchableOpacity>
             </View>
             <View style={styles.bodySub}>
-              <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate('profiles')}>
+              <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate('lives')}>
                 <Image
                   style={{width : 40, height : 40}}
-                  source={profileImage}/>
-                <Text>Profile</Text>
+                  source={liveImage}/>
+                <Text>Live</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate('guides')}>
+              <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate('galleries')}>
               <Image
                   style={{width : 40, height : 40}}
-                  source={guideImage}/>
-                <Text>Guide</Text>
+                  source={galleryImage}/>
+                <Text>Gallery</Text>
               </TouchableOpacity>
               
             </View>

@@ -1,8 +1,9 @@
 import React, {Component}  from "react";
-import {View, Text, Button, StyleSheet, } from "react-native";
+import {View, Text, Button, StyleSheet, Image } from "react-native";
 import {BackIcon, MenuIcon, HeaderTitle} from 'src/components/header';
 import config from 'src/config';
 import AsyncStorage from '@react-native-community/async-storage';
+import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -100,6 +101,15 @@ class Diagnosis extends Component {
           {searchResult.date_list && searchResult.date_list.length > 0 ?
             <DiagnosisList searchResult={searchResult} handleClick={handleSelectDiagnosis} onRefresh={this.onRefresh} />  : null}
           </View>
+          <View style={styles.bottom}>
+            <View style={styles.bottomSub1}>
+              <TouchableOpacity style={styles.bottomItem} onPress ={() =>{
+                  this.handleClickQuickSnapIcon();
+                }}>
+                  <Image style={{width:45, height:45}} source={config.images.quickSnapIcon}/>
+              </TouchableOpacity>        
+            </View>
+          </View>
       </View>
     );
   }
@@ -108,8 +118,8 @@ const styles = StyleSheet.create({
   container : {
     height:"100%", 
     flex:1,
-    paddingTop : 10,
-    paddingBottom : 10,
+    //paddingTop : 10,
+    //paddingBottom : 10,
     flexDirection : "column",
     justifyContent : "center",
     //alignItems: "center",
@@ -122,12 +132,26 @@ const styles = StyleSheet.create({
     paddingRight: 10
   },
   diagnosis_info : {
-    flex : 9,
+    flex : 8,
     height:"100%",
-    width:"100%",  
+    width:"100%",   
+  },
+  bottom:{
+    flex:1,
+    justifyContent:"center",
+    backgroundColor: config.colors.bottomColor,
+    alignItems : "center",
+    color: 'white',
+    flexDirection:"row"
     
-  }
-  
+  },
+  bottomSub1:{
+    flex:5,
+    marginLeft : 5
+  },
+  bottomItem:{
+    //color : "white",
+  },
 })
 
 export default connect(

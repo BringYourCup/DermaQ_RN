@@ -2,7 +2,6 @@ import React, {Component}  from "react";
 import {View, Text, Image, StyleSheet, TouchableOpacity} from "react-native";
 import {BackIcon, MenuIcon, HeaderTitle} from 'src/components/header';
 import config from 'src/config';
-import AsyncStorage from '@react-native-community/async-storage';
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -16,7 +15,7 @@ class PatientImages extends Component {
     const image=config.images.diagnosisIcon;
     return {
       headerLeft: <BackIcon navigation={navigation}/>,
-      headerTitle : <HeaderTitle image={image} title="Image" />,
+      headerTitle : <HeaderTitle image={image} title="Diagnosis" />,
       headerRight : <MenuIcon navigation={navigation}/>,
       headerStyle : {
         backgroundColor: config.colors.headerColor,
@@ -26,29 +25,6 @@ class PatientImages extends Component {
 
   componentDidMount() {
     console.log("Images componentDidMount()");
-    /*    
-    AsyncStorage.getItem('access_info')
-    .then(value => { 
-      const access_info = JSON.parse(value);
-      const { SearchActions, condition, searchKey  } = this.props;
-      const {diagnosis} = this.props.navigation.state.params;
-
-      console.log("diagnosis_id : ", diagnosis);
-
-      let order = searchKey[condition].order;
-      let order_by = searchKey[condition].order_by;
-      SearchActions.getMainList(access_info.access_token, 
-          "image", 
-          order,
-          order_by,
-          { patient_id : patient.patient_id}, 
-          null,
-          null,
-          null,
-          null,
-          );
-      });
-    */
   }
   componentDidUpdate() {
     console.log("Images componentDidUpdate()");
@@ -73,7 +49,6 @@ class PatientImages extends Component {
     alert("Press Quick Snap");
   }
 
-
   render() {
     const { navigation, searchResult } = this.props;
     const {handleSelectimage} = this;
@@ -84,7 +59,7 @@ class PatientImages extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.patient_info}>
-          <PatientItem item={patient} handleClick={null}/>
+          <PatientItem item={patient} handleClick={()=>null}/>
         </View>
         <View style={styles.image_list}>
           <ImageList searchResult={diagnosis} handleClick={handleSelectimage}/>
@@ -102,7 +77,8 @@ class PatientImages extends Component {
           </View>
         </View>
         <View style={styles.bottom}>          
-          <View style={styles.bottomSub1}>
+        {/*
+          <View style={styles.bottomSub1}> 
             <TouchableOpacity style={styles.bottomItem} onPress ={() =>{
               this.handleClickDeleteImage();
             }}>
@@ -111,11 +87,12 @@ class PatientImages extends Component {
           </View>
           <View style={styles.bottomSub2}>
           </View>
-          <View style={styles.bottomSub3}>
+          */}
+          <View style={styles.bottomSub1}>
             <TouchableOpacity style={styles.bottomItem} onPress ={() =>{
               this.handleClickQuickSnap();
             }}>
-              <Image style={{width:35, height:35, marginRight:15}} source={config.images.quickSnapIcon}/>
+              <Image style={{width:45, height:45}} source={config.images.quickSnapIcon}/>
             </TouchableOpacity>
           </View>
         </View>
@@ -128,8 +105,6 @@ const styles = StyleSheet.create({
   container : {
     height:"100%", 
     flex:1,
-    paddingTop : 10,
-    
     flexDirection : "column",
     justifyContent : "center",
     //alignItems: "center",
@@ -143,7 +118,7 @@ const styles = StyleSheet.create({
     //paddingRight: 10
   },
   image_list : {
-    flex : 7,
+    flex : 6,
     height:"100%",
     width:"100%", 
     
@@ -168,7 +143,7 @@ const styles = StyleSheet.create({
   },
   bottomSub1:{
     flex:2,
-    
+    marginLeft : 5
   },
   bottomSub2:{
     flex:6,

@@ -44,7 +44,7 @@ export default class StartScreen extends Component {
 
     return (      
       <View style={styles.container}>
-        <StatusBar backgroundColor={config.colors.headerColor} barStyle='light-content'/>
+        <StatusBar backgroundColor={config.colors.statusBarColor} barStyle='light-content'/>
         <ImageBackground source={backGroundImage} style={{width : "100%", height : "100%"}}>
           <View style={styles.header}>
             <Image

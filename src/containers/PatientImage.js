@@ -13,7 +13,7 @@ import { ImageItem } from "src/components/image";
 
 class PatientImage extends Component {
   static navigationOptions = ({ navigation }) => {
-    const image=config.images.diagnosisIcon;
+    const image=config.images.imageIcon;
     return {
       headerLeft: <BackIcon navigation={navigation}/>,
       headerTitle : <HeaderTitle image={image} title="Image" />,
@@ -89,7 +89,7 @@ class PatientImage extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.patient_info}>
-          <PatientItem item={patient} handleClick={null}/>
+          <PatientItem item={patient} handleClick={()=>null}/>
         </View>
         <View style={styles.image_list}>
           <ImageItem item={image} handleClick={null}/>
@@ -106,7 +106,8 @@ class PatientImage extends Component {
             })}
           </View>
         </View>
-        <View style={styles.bottom}>          
+        <View style={styles.bottom}>  
+        {/*
           <View style={styles.bottomSub1}>
             <TouchableOpacity style={styles.bottomItem} onPress ={() =>{
               this.handleClickDeleteImage();
@@ -116,11 +117,12 @@ class PatientImage extends Component {
           </View>
           <View style={styles.bottomSub2}>
           </View>
-          <View style={styles.bottomSub3}>
+          */}
+          <View style={styles.bottomSub1}>
             <TouchableOpacity style={styles.bottomItem} onPress ={() =>{
               this.handleClickQuickSnap();
             }}>
-              <Image style={{width:35, height:35, marginRight:15}} source={config.images.quickSnapIcon}/>
+              <Image style={{width:45, height:45}} source={config.images.quickSnapIcon}/>
             </TouchableOpacity>
           </View>
         </View>
@@ -133,7 +135,6 @@ const styles = StyleSheet.create({
   container : {
     height:"100%", 
     flex:1,
-    paddingTop : 10,
     flexDirection : "column",
     justifyContent : "center",
     //alignItems: "center",
@@ -146,8 +147,8 @@ const styles = StyleSheet.create({
     
   },
   image_list : {
-    flex : 7,
-    height:"100%",
+    flex : 6,
+    //height:"100%",
     width:"100%", 
     
   },
@@ -155,7 +156,8 @@ const styles = StyleSheet.create({
     flex : 2,
     height:"100%",
     width:"100%",  
-    marginTop : 10,
+    //marginTop : 10,
+    paddingTop : 10,
     paddingLeft : 10,
     backgroundColor: config.colors.bottomBackGroundColor,
   },
@@ -172,7 +174,7 @@ const styles = StyleSheet.create({
   },
   bottomSub1:{
     flex:2,
-    
+    marginLeft : 5
   },
   bottomSub2:{
     flex:6,

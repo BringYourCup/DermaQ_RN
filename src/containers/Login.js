@@ -52,7 +52,7 @@ export default class Login extends Component {
   render() {
     return (
           <View style={styles.container}>
-            <StatusBar backgroundColor={config.colors.headerColor} barStyle='light-content'/>
+            <StatusBar backgroundColor={config.colors.statusBarColor} barStyle='light-content'/>
             <Button onPress={() => this.login("SignIn")} title="Login"/>
             <Button onPress={() => this.register()} title="Register"/>
           </View>    

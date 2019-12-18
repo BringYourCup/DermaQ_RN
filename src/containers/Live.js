@@ -3,12 +3,12 @@ import {View, Text} from 'react-native';
 import {BackIcon, MenuIcon, HeaderTitle} from 'src/components/header';
 import config from 'src/config';
 
-export default class Library extends Component {
+export default class Live extends Component {
   static navigationOptions = ({ navigation }) => {
-    const image=config.images.libraryIcon;
+    const image=config.images.liveIcon;
     return {
       headerLeft: <BackIcon navigation={navigation}/>,
-      headerTitle : <HeaderTitle image={image} title="Library" />,
+      headerTitle : <HeaderTitle image={image} title="Live" />,
       headerRight : <MenuIcon navigation={navigation}/>,
       headerStyle : {
         backgroundColor: config.colors.headerColor,
@@ -18,7 +18,7 @@ export default class Library extends Component {
   render() {
     return (
       <View>
-        <Text>Library Page</Text>
+        <Text>Live Page</Text>
       </View>
       );
   }

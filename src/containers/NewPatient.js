@@ -26,10 +26,12 @@ export default class NewPatient extends Component {
     gender : 'F',
     picture : null,
     loading : false,
+
+    isEditable : false,
+    isSaveConfirm : false,
   };
 
   onTakePic = data => {
-    console.log("onTakePic111111 : ", data);
     this.setState({picture : data});
   };
 
@@ -37,7 +39,7 @@ export default class NewPatient extends Component {
     const image=config.images.patientIcon;
     return {
       headerLeft: <BackIcon navigation={navigation}/>,
-      headerTitle : <HeaderTitle image={image} title="New Patients" />,
+      headerTitle : <HeaderTitle image={image} title={navigation.state.params.title} />,
       headerRight : <MenuIcon navigation={navigation}/>,
       headerStyle : {
         backgroundColor: config.colors.headerColor,
@@ -70,9 +72,6 @@ export default class NewPatient extends Component {
     if (birthDay == null) {
       alert("Please Enter BirthDay");
       return false;
-    } else if(gender.length == 0){
-      alert("Please Enter Gender");
-      return false;
     } else if(firstName.length == 0){
       alert("Please Enter First Name");
       return false;
@@ -86,7 +85,12 @@ export default class NewPatient extends Component {
   confirm = () => {
     if(this.checkInput()){
       console.log("Good");
-      this.handleSubmit();
+      if(this.state.isEditable){
+        this.handleSubmitEdit();
+      } else {
+        this.handleSubmit();
+      }
+      
       //Alert.alert("Confirm", JSON.stringify(this.state));
     } else{
       console.log("Bad");
@@ -121,16 +125,72 @@ export default class NewPatient extends Component {
     }
   }
 
+  handleSubmitEdit = async () => {
+    const {birthDay, gender, firstName, lastName, pid, access_info} = this.state;
+    try {
+      const send_data = {
+          "category": "patient",
+          "service": "UpdatePatient",
+          "access_token": access_info.access_token,
+          "patient": {
+              patient_id : this.props.navigation.state.params.patient.patient_id,
+              hospital_id : this.props.navigation.state.params.patient.hospital_id,
+              user_id : this.props.navigation.state.params.patient.user_id,
+              pid : pid,
+              first_name : firstName,
+              last_name : lastName,
+              birth_date : birthDay,
+              gender : gender,
+          }
+      };
+      this.setState({loading : true})
+      const response = await axios.post(config.baseUrl + '/api/', 
+        {"data" : send_data});
+      console.log("UpdatePatient : ", response.data);
+      setTimeout(() => {this.setState({loading: false})}, 1500)
+      if(!response.data.err){
+        this.props.navigation.goBack();
+      }
+    } catch (err) {
+      console.log("UpdatePatient err : ", err)
+    }
+  }
+
   componentDidMount() {
+    console.log("New Patient componentDidMount()");
     AsyncStorage.getItem('access_info')
     .then(value => { 
       const access_info = JSON.parse(value);
       this.setState({access_info : access_info});
     });
+
+    /* edit patient 이면 state를 채운다. edit가 아니면 그냥 new patient*/
+    if(this.props.navigation.state.params && this.props.navigation.state.params.patient){
+      const {patient_id, pid, last_name, first_name, birth_date, gender} = this.props.navigation.state.params.patient;
+      console.log("this.props.navigation.state.params.patient : ", this.props.navigation.state.params.patient);
+      this.setState({
+        patient_id : patient_id,
+        pid : pid,
+        lastName : last_name,
+        firstName : first_name,
+        birthDay : birth_date,
+        gender : gender,
+        isEditable : true,
+      })
+    }
+  }
+  handleClickCancelButton = () => {
+    this.setState({
+      isEditable : false,
+    });
+    this.props.navigation.goBack();
+  }
+  handleClickSaveButton = () => {
+    this.setState({isSaveConfirm : false});
   }
   
   render() {
-    const {birthDay, pid, firstName, lastName, loading} = this.state;
+    const {birthDay, pid, firstName, lastName, loading, isEditable} = this.state;
     return (
       <View style={styles.container}>
         {loading &&
@@ -214,11 +274,26 @@ export default class NewPatient extends Component {
             </View>
           </KeyboardAwareScrollView>
         </View >
-      <View style={styles.bottom}>
-        <TouchableOpacity style={styles.confirmButton} onPress={() => this.confirm()}>
-          <Text style={styles.confirmButtonText}>Confirm</Text>
-        </TouchableOpacity>
-      </View>
+        {isEditable ? 
+           <View style={styles.bottomSave}>
+           <View style={styles.bottomSaveSub1}>
+             <TouchableOpacity style={styles.cancelButton} onPress={this.handleClickCancelButton}>
+               <Text style={styles.cancelButtonText}>Cancel</Text>
+             </TouchableOpacity>
+           </View>
+           <View style={styles.bottomSaveSub1}>
+             <TouchableOpacity style={styles.saveButton} onPress={this.confirm}>
+                 <Text style={styles.saveButtonText}>Save</Text>
+             </TouchableOpacity>
+           </View>
+         </View>
+        :
+          <View style={styles.bottom}>
+            <TouchableOpacity style={styles.confirmButton} onPress={this.confirm}>
+              <Text style={styles.confirmButtonText}>Confirm</Text>
+            </TouchableOpacity>
+          </View>
+          }
     </View>
     );
   }
@@ -294,6 +369,46 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  bottomSave:{
+    flex:1,
+    backgroundColor: config.colors.bottomColor,
+    flexDirection : "row"
+  },
+  bottomSaveSub1 :{
+    flex:1,
+    justifyContent : "center",
+  },
+  cancelButton : {
+    width : "95%",
+    backgroundColor: config.colors.confirmButtonColor,
+    padding: 10,
+    margin : 10,
+    borderRadius: 5,
+    justifyContent : "center",
+    alignSelf : "center",
+  },
+  cancelButtonText : {
+    alignItems : "center",
+    color : "white",
+    textAlign : "center",
+    fontSize : 18 
+  },
+  saveButton : {
+    width : "95%",
+    backgroundColor: config.colors.confirmButtonColor,
+    padding: 10,
+    margin : 10,
+    borderRadius: 5,
+    justifyContent : "center",
+    alignSelf : "center",
+    
+  },
+  saveButtonText : {
+    alignItems : "center",
+    color : "white",
+    textAlign : "center",
+    fontSize : 18,
   },
 })
 

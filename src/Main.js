@@ -3,7 +3,7 @@ import {Image, } from 'react-native';
 import { createSwitchNavigator, createAppContainer, NavigationActions } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import {createDrawerNavigator, DrawerActions} from "react-navigation-drawer";
-import { HomeScreen, Login, Register, Patient, NewPatient, NewPatientCamera, Diagnosis, PatientImages, PatientImage, Profile, Guide, QuickSnap, Library, Setting, QRcodeScan, StartScreen } from 'src/containers';
+import { HomeScreen, Login, Register, Patient, NewPatient, NewPatientCamera, Diagnosis, PatientImages, PatientImage, Profile, Guide, QuickSnap, Gallery, Setting, QRcodeScan, StartScreen, Live } from 'src/containers';
 import {DrawContentComponent} from "src/components/drawScreen";
 import config from 'src/config';
 import { NewPatientCameraCrop } from './containers';
@@ -14,7 +14,8 @@ const quickSnapImage = config.images.quickSnapIcon;
 const profileImage = config.images.profileIcon;
 const guideImage = config.images.guideIcon;
 const settingImage = config.images.settingIcon;
-const libraryImage = config.images.libraryIcon;
+const galleryImage = config.images.galleryIcon;
+const liveImage = config.images.liveIcon;
 
 const PatientStack = createStackNavigator({
   patient : { 
@@ -58,9 +59,16 @@ const GuideStack = createStackNavigator({
   }
 });
 
-const LibraryStack = createStackNavigator({
-  library : {
-    screen : Library,
+const LiveStack = createStackNavigator({
+  live : {
+    screen : Live,
+  }
+});
+
+
+const GalleryStack = createStackNavigator({
+  gallery : {
+    screen : Gallery,
   }
 });
 
@@ -125,14 +133,26 @@ const DetailStacks = createDrawerNavigator({
       ),
     }
   },
-  librarys : {
-    screen : LibraryStack,
+  lives : {
+    screen : LiveStack,
     navigationOptions : {
-      drawerLabel : "Library",
+      drawerLabel : "Live",
       drawerIcon: (
         <Image
           style={{ width: 30, height: 30 }}
-          source={libraryImage}
+          source={liveImage}
+        />
+      ),
+    }
+  },
+  galleries : {
+    screen : GalleryStack,
+    navigationOptions : {
+      drawerLabel : "Gallery",
+      drawerIcon: (
+        <Image
+          style={{ width: 30, height: 30 }}
+          source={galleryImage}
         />
       ),
     }

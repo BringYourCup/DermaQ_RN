@@ -15,28 +15,24 @@ class ImageItem extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.body}>
-          <Image  resizeMode="contain"
-            source={{uri : imageUrl}} 
-            style={{width : config.styleConstants.width-5, height : config.styleConstants.width-5 }}
-            />
-        </View>
+          <Image style={styles.image}
+            source={{uri : imageUrl}} />
       </View>)
   }
 }
 
 const styles = StyleSheet.create({
   container : {
-    flex:1,
-    height : "100%",
-    justifyContent:"center",
-    alignItems :"center",
+    flex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
-  body : {
-    flex : 1,
-    height : "100%",
-    justifyContent:"center",
-    alignItems: "center",
+  image : {
+    flex: 1,
+    resizeMode: 'contain',
   },
   
 });

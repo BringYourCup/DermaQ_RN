@@ -9,8 +9,9 @@ import PatientImage from './PatientImage';
 import Profile from './Profile';
 import Guide from './Guide';
 import QuickSnap from './QuickSnap';
-import Library from './Library';
+import Gallery from './Gallery';
 import Setting from './Setting';
+import Live from './Live';
 import QRcodeScan from './QRcodeScan';
 import StartScreen from './StartScreen';
 import NewPatientCamera from './NewPatientCamera';
@@ -32,7 +33,8 @@ export {
   Guide,
   QuickSnap,
   Setting,
-  Library,
+  Gallery,
   QRcodeScan,
   StartScreen,
+  Live,
 }
