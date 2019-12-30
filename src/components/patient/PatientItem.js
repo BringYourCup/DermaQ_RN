@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from "react-native";
 import config from 'src/config';
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 
 
@@ -23,7 +24,7 @@ class PatientItem extends Component {
       <View style={styles.container}>
           <View style={styles.bodyLeft}>
             <Image source={config.images.patientEmptyImage} resizeMode="contain"
-            style={{width : 25, height : 25}}/>
+            style={{width : 40, height : 40}}/>
           </View>
           
           <TouchableOpacity style={styles.bodyMiddle} onPress={()=>handleClick(item)}>
@@ -41,9 +42,14 @@ class PatientItem extends Component {
             
           </TouchableOpacity>
           <View style={styles.bodyRight}>
-            <TouchableOpacity onPress={()=>alert("Press Favorite")}>
-              <Image source={config.images.favoriteImage} style={{width:20, height:20}}/>
-            </TouchableOpacity>
+            <Icon
+              style={{marginLeft : 5}}
+              name="chevron-right"
+              color="#00A5BD"
+              size={26}
+              underlayColor="#4BA6F8"
+              onPress={() => handleClick(item)}
+            />
           </View>
       </View>)
   }

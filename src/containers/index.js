@@ -9,6 +9,9 @@ import PatientImage from './PatientImage';
 import Profile from './Profile';
 import Guide from './Guide';
 import QuickSnap from './QuickSnap';
+import QuickSnapCamera from './QuickSnapCamera';
+import QuickSnapCameraCrop from './QuickSnapCameraCrop';
+import QuickSnapNewImage from './QuickSnapNewImage';
 import Gallery from './Gallery';
 import Setting from './Setting';
 import Live from './Live';
@@ -32,6 +35,9 @@ export {
   Profile,
   Guide,
   QuickSnap,
+  QuickSnapCamera,
+  QuickSnapCameraCrop,
+  QuickSnapNewImage,
   Setting,
   Gallery,
   QRcodeScan,

@@ -345,6 +345,7 @@ const styles = StyleSheet.create({
 
   bottom : {
     flex : 1,
+    backgroundColor : config.colors.confirmBackGroundColor,
   },
   confirmButton : {
     width : "95%",
@@ -353,7 +354,7 @@ const styles = StyleSheet.create({
     margin : 10,
     borderRadius: 5,
     justifyContent : "center",
-    alignSelf : "center",
+    alignItems : "center",
   },
   confirmButtonText : {
     alignItems : "center",

@@ -3,10 +3,19 @@ import {Image, } from 'react-native';
 import { createSwitchNavigator, createAppContainer, NavigationActions } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import {createDrawerNavigator, DrawerActions} from "react-navigation-drawer";
-import { HomeScreen, Login, Register, Patient, NewPatient, NewPatientCamera, Diagnosis, PatientImages, PatientImage, Profile, Guide, QuickSnap, Gallery, Setting, QRcodeScan, StartScreen, Live } from 'src/containers';
+import { HomeScreen, 
+  Login, Register, 
+  Patient, NewPatient, NewPatientCamera, NewPatientCameraCrop, Diagnosis, PatientImages, PatientImage, 
+  Profile, 
+  Guide, 
+  QuickSnap, QuickSnapCamera, QuickSnapCameraCrop, QuickSnapNewImage,
+  Gallery, 
+  Setting, 
+  QRcodeScan, 
+  StartScreen, 
+  Live } from 'src/containers';
 import {DrawContentComponent} from "src/components/drawScreen";
 import config from 'src/config';
-import { NewPatientCameraCrop } from './containers';
 
 
 const patientImage = config.images.patientIcon;
@@ -44,7 +53,18 @@ const PatientStack = createStackNavigator({
 const QuickSnapStack = createStackNavigator({
   quicksnap : {
     screen : QuickSnap,
-  }
+  },
+  quicksnapCamera : {
+    screen : QuickSnapCamera,
+  },
+  quicksnapCameraCrop : {
+    screen : QuickSnapCameraCrop,
+  },
+  quicksnapNewImage : {
+    screen : QuickSnapNewImage,
+  },
+}, {
+  initialRouteName: 'quicksnap'
 });
 
 const ProfileStack = createStackNavigator({
@@ -69,7 +89,11 @@ const LiveStack = createStackNavigator({
 const GalleryStack = createStackNavigator({
   gallery : {
     screen : Gallery,
-  }
+  },
+  galleryNewImage : {
+    screen : QuickSnapNewImage,
+  },
+
 });
 
 const SettingStack = createStackNavigator({

@@ -1,19 +1,31 @@
 
 import React, { Component } from 'react';
-import {NavigationActions} from 'react-navigation';
+import {NavigationActions, StackActions} from 'react-navigation';
 import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import {DrawerItems, DrawerActions} from "react-navigation-drawer";
 import config from 'src/config';
 
 export default class DrawContentComponent extends Component {
 
-    navigateToScreen = ( route ) =>(
-        () => {
+    navigateToScreen = ( {route, focus} ) =>{
+       
+        console.log("navigateToScreen : ", route, focus);
+        /*
         const navigateAction = NavigationActions.navigate({
-            routeName: route
+            routeName: route.routeName
         });
-        this.props.navigation.dispatch(navigateAction);
+        */
+       /* 일단 동작하는거 같긴한데 정확한지 잘 모르겠음 */
+       const navigateAction = StackActions.reset({
+        index: 0,
+        key : route.key,
+        actions: [
+        NavigationActions.navigate({ routeName: route.routes[0].routeName})
+        ]
     })
+        
+        this.props.navigation.dispatch(navigateAction);
+    }
 
   render() {
     return (
@@ -23,7 +35,8 @@ export default class DrawContentComponent extends Component {
                 <Text style={styles.headerText}>Dr. Kim</Text>
             </View>
             <View style={styles.screenContainer}>
-                <DrawerItems {...this.props} />
+                <DrawerItems {...this.props} 
+                onItemPress={this.navigateToScreen.bind(this)}/>
             </View>
             <View style={styles.tailContainer}>
                 <View style={styles.tailItem1}></View>

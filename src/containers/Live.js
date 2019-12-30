@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Image, StyleSheet} from 'react-native';
 import {BackIcon, MenuIcon, HeaderTitle} from 'src/components/header';
 import config from 'src/config';
 
 export default class Live extends Component {
   static navigationOptions = ({ navigation }) => {
-    const image=config.images.liveIcon;
+    const image=config.images.profileIcon;
     return {
       headerLeft: <BackIcon navigation={navigation}/>,
-      headerTitle : <HeaderTitle image={image} title="Live" />,
+      headerTitle : <HeaderTitle image={image} title="Profile" />,
       headerRight : <MenuIcon navigation={navigation}/>,
       headerStyle : {
         backgroundColor: config.colors.headerColor,
@@ -17,9 +17,19 @@ export default class Live extends Component {
   };
   render() {
     return (
-      <View>
-        <Text>Live Page</Text>
+      <View style={styles.container}>
+
+        <Image source={config.images.underConstruction} 
+          style={{width : 200, height : 200,  }}  />
       </View>
-      );
+    );
   }
 }
+
+const styles =StyleSheet.create({
+  container : {
+    justifyContent : "center",
+    alignItems : "center",
+    height : "100%",
+  },
+});

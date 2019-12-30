@@ -1,5 +1,5 @@
 import React, {Component}  from "react";
-import {View, Text, Button, StyleSheet,Image ,Platform, FlatList} from "react-native";
+import {View, Text, Button, StyleSheet,Image ,Platform, FlatList,SafeAreaView } from "react-native";
 import {BackIcon, MenuIcon, HeaderTitle} from 'src/components/header';
 import config from 'src/config';
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
@@ -340,7 +340,7 @@ class Patient extends Component {
               clickYesButton={this.deletePatient}
               isVisable={isDeleteConfirm}
               />
-        <View style={styles.body}>
+        <SafeAreaView  style={styles.body} >
            <View style={{ width:"100%"}}>
             <FlatList
               data={searchData}
@@ -351,11 +351,14 @@ class Patient extends Component {
               stickyHeaderIndices={[0]}
               refreshing={refreshing}
               onRefresh={this.onRefresh}
+              keyboardShouldPersistTaps="always"
+              
+              
               //contentContainerStyle={{ paddingBottom: 50}}
             />
             
           </View>
-        </View>
+        </SafeAreaView >
         {isEditable &&
           <View style={styles.bottomCancel}>
             <TouchableOpacity style={styles.cancelButton} onPress={() => this.handleClickCancelButton()}>
@@ -419,7 +422,7 @@ const styles = StyleSheet.create({
   body:{
     flex:9,
     //justifyContent:"center",
-    alignItems : "center",
+    //alignItems : "center",
     height:"100%", 
   },
   bottom:{
@@ -428,6 +431,9 @@ const styles = StyleSheet.create({
     alignItems : "center",
     color: 'white',
     flexDirection:"row",
+    position: 'absolute',
+    bottom : 0,
+    
   },
   bottomSub1:{
     flex:5,
@@ -447,12 +453,12 @@ const styles = StyleSheet.create({
   },
   bottomCancel:{
     flex:1,
-    backgroundColor: config.colors.bottomColor,
+    backgroundColor : config.colors.confirmBackGroundColor,
     justifyContent : "center",
   },
   bottomDelete:{
     flex:1,
-    backgroundColor: config.colors.bottomColor,
+    backgroundColor : config.colors.confirmBackGroundColor,
     flexDirection : "row"
   },
   bottomDeleteSub1 :{

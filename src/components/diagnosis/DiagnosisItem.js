@@ -19,7 +19,7 @@ class DiagnosisItem extends Component {
       <TouchableOpacity style={styles.container} onPress={()=>handleClick(item)}>
           <View style={styles.bodyLeft}>
             <View style={styles.diagnosis_image}>
-              {iamgeUrl && imageUrl.length > 0 ?
+              {imageUrl && imageUrl.length > 0 ?
                  <Image source={{uri : imageUrl}} style={{borderRadius : 7, width : 75, height : 70, }}/> 
                  :
                  null }

@@ -4,11 +4,11 @@ import config from 'src/config';
 
 export default class HomeScreen extends Component {
   render() {
-    const dermateLogImage = config.images.dermateLogImage;
-    const patientImage = config.images.patientIcon;
-    const quickSnapImage = config.images.quickSnapIcon;
-    const liveImage = config.images.liveIcon;
-    const galleryImage = config.images.galleryIcon;
+    const dermateLogImage = config.images.menuLogo;
+    const patientImage = config.images.menuPatient;
+    const quickSnapImage = config.images.menuQuickSnap;
+    const liveImage = config.images.menuLive;
+    const galleryImage = config.images.menuGallery;
     const backGroundImage = config.images.dermateHomeScreen;
 
     return (      
@@ -17,37 +17,32 @@ export default class HomeScreen extends Component {
         <ImageBackground source={backGroundImage} style={{width : "100%", height : "100%"}}>
           <View style={styles.header}>
             <Image
-              style={{width : 50, height : 50}}
+              style={{width : 150, height : 150, resizeMode: "contain"}}
               source={dermateLogImage}/>
-            <Text style={styles.title}>D E R M A T E</Text>
           </View>
           <View style={styles.body}>
             <View style={styles.bodySub}>
               <TouchableOpacity style={styles.item } onPress={() => this.props.navigation.navigate('patients')}>
                 <Image
-                  style={{width : 40, height : 40}}
+                  style={{width : 100, height : 100}}
                   source={patientImage}/>
-                <Text>Patient</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate('quicksnaps')}>
                 <Image
-                  style={{width : 40, height : 40}}
+                  style={{width : 100, height : 100}}
                   source={quickSnapImage}/>
-                <Text>Quick Snap</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.bodySub}>
               <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate('lives')}>
                 <Image
-                  style={{width : 40, height : 40}}
+                  style={{width : 100, height : 100}}
                   source={liveImage}/>
-                <Text>Live</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.item} onPress={() => this.props.navigation.navigate('galleries')}>
               <Image
-                  style={{width : 40, height : 40}}
+                  style={{width : 100, height : 100}}
                   source={galleryImage}/>
-                <Text>Gallery</Text>
               </TouchableOpacity>
               
             </View>
@@ -70,7 +65,7 @@ const styles = StyleSheet.create({
     flex : 4,
     justifyContent : "center",
     alignItems : "center",
-    
+
   },
   title : {
     marginTop : 5,
@@ -87,12 +82,12 @@ const styles = StyleSheet.create({
     padding : 5,
   },
   item : {
-    padding:10,
-	  backgroundColor: '#d5dadd',
+    //padding:10,
+	  //backgroundColor: '#d5dadd',
     borderRadius: 10,
     marginRight : 10,
-    width : 100,
-    height : 100,
+    //width : 100,
+    //height : 100,
     justifyContent : "center",
     alignItems : "center",
     

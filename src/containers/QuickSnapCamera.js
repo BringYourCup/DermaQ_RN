@@ -8,11 +8,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const DESIRED_RATIO = "1:1";
 
-export default class NewPatientCamera extends Component {
+
+export default class QuickSnapCamera extends Component {
   constructor() {
     super();
     this.state = {
-       cameraType: RNCamera.Constants.Type.front
+       cameraType: RNCamera.Constants.Type.back,
+       ratio : DESIRED_RATIO,
     };
   }
 
@@ -22,29 +24,44 @@ export default class NewPatientCamera extends Component {
     }
   }
 
-  onCropPic = data => {
-    console.log("onCropPic : ", data);
-    this.setState({cropPicture : data});
+  componentDidMount() {
+    console.log("QuickSnapCamera componentDidMount()");
+    /*
+    this.subs = [
+      this.props.navigation.addListener("didFocus", () => {console.log("QuickSnapCamera didFocus"); this.setState({ isFocused: true });}),
+      this.props.navigation.addListener("willBlur", () => {console.log("QuickSnapCamera willBlur"); this.setState({ isFocused: false });}),
+    ];
+    */
   }
 
-  componentDidMount() {
-    console.log("NewPatient Camera componentDidMount()");
+  componentWillUnmount() {
+    console.log("QuickSnap componentWillUnmount()");
+    /*
+    this.subs.forEach((sub) => {
+      sub.remove();
+    });
+    */
   }
 
   takePicture = async function() {
-    try {
+    try{
       if (this.camera) {
-        const options = { quality: 1.0, base64: false, pauseAfterCapture : true };
+        //const options = { quality: 1.0, base64: false, pauseAfterCapture : true };        
+        
+        const options = { quality: 1.0, 
+            base64: false, 
+            pauseAfterCapture : true,
+            
+        };
         const imageData = await this.camera.takePictureAsync(options);
   
         console.log("ImageData : ", imageData);
         
-        this.props.navigation.navigate("newPatientCameraCrop", 
+        this.props.navigation.navigate("quicksnapCameraCrop", 
         {imageData : imageData,
-          onCropPic : this.onCropPic,
-        });
-        //this.props.navigation.goBack();
-        //this.props.navigation.state.params.onTakePic(imageData);
+          location : this.props.navigation.state.params.location
+          
+        });    
       }
     } catch(e) {
       console.log(e);
@@ -57,6 +74,7 @@ export default class NewPatientCamera extends Component {
       this.setState({cameraType : RNCamera.Constants.Type.front})
     }
   }
+
   prepareRatio = async () => {
     if (Platform.OS === 'android' && this.camera) {
         const ratios = await this.camera.getSupportedRatiosAsync();
@@ -73,11 +91,7 @@ export default class NewPatientCamera extends Component {
   }
 
   render() {
-    if(this.state.cropPicture != null)  {
-      this.props.navigation.goBack();
-      this.props.navigation.state.params.onTakePic(this.state.cropPicture);
-      return null;
-    }
+    console.log("AAAAAAAAAAAAAAAAAA: ", this.props.navigation.state.params);
     return (
       <View style={styles.container}>
         <View style={styles.body}>
@@ -85,14 +99,17 @@ export default class NewPatientCamera extends Component {
             ref={ref => {
               this.camera = ref;
             }}
-            style={styles.preview}
-            type={this.state.cameraType}
-            flashMode={RNCamera.Constants.FlashMode.off}
-            playSoundOnCapture={true}
+            
             onCameraReady = {
               this.prepareRatio
             }
             ratio={this.state.ratio}
+            style={styles.preview}
+            type={this.state.cameraType}
+            autoFocus="auto"
+            playSoundOnCapture={true}
+            
+            flashMode={RNCamera.Constants.FlashMode.off}
             androidCameraPermissionOptions={{
               title: 'Permission to use camera',
               message: 'We need your permission to use your camera',
@@ -143,7 +160,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "black"
   },
-
   body: {
     flex: 8,
     justifyContent: "flex-end",

@@ -1,15 +1,15 @@
 import React, {Component}  from "react";
-import {View, Text} from "react-native";
+import {View, Text, Image, StyleSheet} from "react-native";
 import {BackIcon, MenuIcon, HeaderTitle} from 'src/components/header';
 import config from 'src/config';
 
 
 export default class Guide extends Component {
   static navigationOptions = ({ navigation }) => {
-    const image=config.images.guideIcon;
+    const image=config.images.profileIcon;
     return {
       headerLeft: <BackIcon navigation={navigation}/>,
-      headerTitle : <HeaderTitle image={image} title="Guide" />,
+      headerTitle : <HeaderTitle image={image} title="Profile" />,
       headerRight : <MenuIcon navigation={navigation}/>,
       headerStyle : {
         backgroundColor: config.colors.headerColor,
@@ -18,9 +18,18 @@ export default class Guide extends Component {
   };
   render() {
     return (
-      <View>
-        <Text> Guide Page </Text>
+      <View style={styles.container}>
+        <Image source={config.images.underConstruction} 
+          style={{width : 200, height : 200,  }}  />
       </View>
     );
   }
 }
+
+const styles =StyleSheet.create({
+  container : {
+    justifyContent : "center",
+    alignItems : "center",
+    height : "100%",
+  },
+});

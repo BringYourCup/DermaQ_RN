@@ -14,6 +14,7 @@ export default class StartScreen extends Component {
   }
 
   login = async (status) => {
+    console.log("aaaa");
     let send_data = null;
     switch(status){
       case "SignIn":
@@ -26,8 +27,10 @@ export default class StartScreen extends Component {
         break;
     }
     try {
+      console.log("response.data.data : ");
       const response = 
         await axios.post(config.baseUrl + '/api/', {"data" : send_data});
+        console.log("response.data.data : ", response);
       if(response.data.data) {
         await AsyncStorage.setItem('access_info', JSON.stringify(response.data.data));
         this.props.navigation.navigate("home");
@@ -37,7 +40,7 @@ export default class StartScreen extends Component {
     }
   }
   render() {
-    const dermateLogImage = config.images.dermateLogImage;
+    const dermateLogImage = config.images.menuLogo;
     const backGroundImage = config.images.dermateHomeScreen;
 
     
@@ -48,9 +51,8 @@ export default class StartScreen extends Component {
         <ImageBackground source={backGroundImage} style={{width : "100%", height : "100%"}}>
           <View style={styles.header}>
             <Image
-              style={{width : 50, height : 50}}
+              style={{width : 150, height : 150, resizeMode:"contain"}}
               source={dermateLogImage}/>
-            <Text style={styles.title}>D E R M A T E</Text>
           </View>
           <View style={styles.body}>
             
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
     flexDirection : "column"
   },
   header : {
-    flex : 4,
+    flex : 5,
     justifyContent : "center",
     alignItems : "center",
     
@@ -87,7 +89,7 @@ const styles = StyleSheet.create({
     fontSize : 24,
   },
   body : {
-    flex : 5,
+    flex : 4,
     flexDirection : "column",
     alignItems : "center",
     //backgroundColor : "green",

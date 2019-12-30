@@ -20,6 +20,19 @@ export default {
     patientEmptyImage : require('src/images/PatientEmptyImage.png'),
     favoriteImage : require('src/images/FavoriteImage.png'),
     emptyPictureImage : require('src/images/EmptyPictureImage.png'),
+    menuGallery : require('src/images/menu_gallery.png'),
+    menuLive : require('src/images/menu_live.png'),
+    menuPatient : require('src/images/menu_patient.png'),
+    menuQuickSnap : require('src/images/menu_quicksnap.png'),
+    menuLogo : require('src/images/menu_logo.png'),
+    exportImage : require('src/images/export.png'),
+    checkNoImage : require('src/images/check-n.png'),
+    checkYesImage : require('src/images/check-s.png'),
+    underConstruction : require('src/images/UnderConstruction.png'),
+    
+    
+    /* for test */
+    testBodyImage : require('src/images/testBody.png'),
   },
   colors :{
     headerColor : "#00A5BD",
@@ -37,12 +50,15 @@ export default {
     buttonBackGroundColor : "#354d66",
     basicButtonColor : "#354d67",
     statusBarColor  : "#00525e",
+    confirmBackGroundColor : "#26415c"
   },
   styleConstants: {
     oneThirdWidth: Dimensions.get("window").width / 3,
-    width: Dimensions.get("window").width
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height
   },
   //baseUrl : 'https://dermaster.lazybird.kr'
   //baseUrl : "http://localhost:3000/api/"
   baseUrl : 'https://dermaster.lazybird.kr'
+  //baseUrl : 'https://dermaster.io'
 };
