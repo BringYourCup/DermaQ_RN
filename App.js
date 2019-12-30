@@ -12,6 +12,7 @@ const store = createStore(modules, applyMiddleware(thunk));
 export default class App extends Component {
   
   render() {
+    /* device text 사이즈에 영향 안받게 설정 */
     if (Text.defaultProps == null) Text.defaultProps = {};
         Text.defaultProps.allowFontScaling = false;
     if (TextInput.defaultProps == null) TextInput.defaultProps = {};
