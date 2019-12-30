@@ -12,7 +12,8 @@ export default class NewPatientCamera extends Component {
   constructor() {
     super();
     this.state = {
-       cameraType: RNCamera.Constants.Type.front
+       cameraType: RNCamera.Constants.Type.front,
+       ratio : DESIRED_RATIO,
     };
   }
 
